@@ -8,5 +8,5 @@ setup(name='wrf-mp-diag',
       author_email='max.heikenfeld@physics.ox.ac.uk',
       license='GNU',
       packages=['wrfcube'],
-      install_requires=['wrfcube'],
+      install_requires=[],
       zip_safe=False)
