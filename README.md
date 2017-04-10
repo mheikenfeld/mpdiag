@@ -1,2 +1,2 @@
-# wrf-mp-diag
+# wrfmpdiag
 WRF mircophysics diagnostics based on wrfcube
