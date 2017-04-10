@@ -1,12 +1,12 @@
 from setuptools import setup
 
-setup(name='wrf-mp-diag',
+setup(name='wrfmpdiag',
       version='0.1',
       description='Load and process WRF microphysics diagnostics output',
       url='http://github.com/mheikenfeld/wrf-mp-diag',
       author='Max Heikenfeld',
       author_email='max.heikenfeld@physics.ox.ac.uk',
       license='GNU',
-      packages=['wrf-mp-diag'],
+      packages=['wrfmpdiag'],
       install_requires=['wrfcube'],
       zip_safe=False)
