@@ -1,8 +1,8 @@
 from collections import defaultdict
+from wrfcube import loadwrfcube
 
 
 def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
-   from wrfload import loadwrfcube
    cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
    #dict_out={}
    list_out=[]
@@ -551,11 +551,10 @@ morrison_processes_number=[
 #    #return Dict
 
 def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',slice_time=slice(None),absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False):
-    from wrfload import loadwrfcube, derivewrfcube
+    from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
     from iris.analysis.maths import abs
     from datetime import datetime
-    import numpy as np
     cubelist_out=CubeList()
     
     if (debug_nproc is not None):
@@ -607,7 +606,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
     return cubelist_out
 
 def load_wrf_variables_signed_3D(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',slice_time=slice(None),absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False):
-    from wrfload import loadwrfcube, derivewrfcube
+    from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
     from datetime import datetime
     import numpy as np
@@ -834,14 +833,14 @@ def load_wrf_variables_signed_3D(filename,variable_list,split_dict,add_coordinat
 #    #return Cubelist
 #    return Dict
 
-def calculate_wrf_thompson_path(filename,path,add_coordinates=None,quantity='volume'):
-    if (path=='processes_mass'):
-        out=load_wrf_thom_mass_proc(filename,add_coordinates)
-    if (path=='processes_number'):
-        out=load_wrf_thom_number_proc(filename,add_coordinates)
-    else:
-        print('option not avaliable')
-    return out
+#def calculate_wrf_thompson_path(filename,path,add_coordinates=None,quantity='volume'):
+#    if (path=='processes_mass'):
+#        out=load_wrf_thom_mass_proc(filename,add_coordinates)
+#    if (path=='processes_number'):
+#        out=load_wrf_thom_number_proc(filename,add_coordinates)
+#    else:
+#        print('option not avaliable')
+#    return out
 
 
 thompson_processes_mass= list(List_Processes_Thompson_Mass)
