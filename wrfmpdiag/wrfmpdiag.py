@@ -591,12 +591,9 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
             cubelist_out.extend(List_1)
         else:
             cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates_load,constraint=constraint)
-            print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': ',  variable, ' loaded')
-
             #cube.data=np.abs(cube.data)
             cube=abs(cube)
             if 'z' in add_coordinates:
-                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': ', 'adding z-coord to', variable)
                 cube.add_aux_coord(z_coord,z_data_dims)
                 #cube.add_aux_coord(p_coord,z_data_dims)
             if quantity=='volume':
