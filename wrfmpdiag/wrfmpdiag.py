@@ -1808,7 +1808,7 @@ def lumped_latentheatingmass(lumped_processes):
     return cubelist_out
 
     
-def latentheating(lumped_latentheating):
+def latentheating_grouped(lumped_latentheating):
     from iris.cube import CubeList
     cubelist_out=CubeList()
     LHRFRZ=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data
@@ -1820,7 +1820,7 @@ def latentheating(lumped_latentheating):
     cubelist_out.extend([LHRFRZ,LHREVP,LHRSUB])
     return cubelist_out
 
-def latentheating_total(latentheating):
+def latentheating_total(lumped_latentheating):
     LHR=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data +lumped_latentheating.extract_strict('Condensation').data+lumped_latentheating.extract_strict('Evaporation').data+lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition').data
     LHR.rename('LHR')
     return LHR
