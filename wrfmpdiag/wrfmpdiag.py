@@ -1820,4 +1820,7 @@ def latentheating(lumped_latentheating):
     cubelist_out.extend([LHRFRZ,LHREVP,LHRSUB])
     return cubelist_out
 
-
+def latentheating_total(latentheating):
+    LHR=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data +lumped_latentheating.extract_strict('Condensation').data+lumped_latentheating.extract_strict('Evaporation').data+lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition').data
+    LHR.rename('LHR')
+    return LHR
