@@ -2,8 +2,8 @@ from collections import defaultdict
 from wrfcube import loadwrfcube
 
 
-def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
-   cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
+def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None,lazy=True):
+   cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint,lazy=lazy)
    #dict_out={}
    list_out=[]
    #dict_out[name_neg]=get_process_neg(cube,cube,name_neg)
@@ -550,7 +550,7 @@ morrison_processes_number=[
 #    return cubelist_out
 #    #return Dict
 
-def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False):
+def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False,lazy=True):
     from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
     from iris.analysis.maths import abs
@@ -565,9 +565,9 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
 
     add_coordinates_load=add_coordinates[:]
     if quantity=='volume':
-        rho=derivewrfcube(filename,'density',add_coordinates=add_coordinates,constraint=constraint)
+        rho=derivewrfcube(filename,'density',add_coordinates=add_coordinates,constraint=constraint,lazy=lazy)
     if 'z' in add_coordinates:   
-        cube=loadwrfcube(filename,variable_list[1],add_coordinates=add_coordinates,constraint=constraint)
+        cube=loadwrfcube(filename,variable_list[1],add_coordinates=add_coordinates,constraint=constraint,lazy=lazy)
         z_coord=cube.coord('geopotential_height')
         #p_coord=cube.coord('pressure')
         z_data_dims=cube.coord_dims('geopotential_height')
@@ -577,7 +577,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
             print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': ', 'loading', variable)
 
         if variable in List_signed:
-            List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],add_coordinates=add_coordinates_load,constraint=constraint)
+            List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],add_coordinates=add_coordinates_load,constraint=constraint,lazy=lazy)
             if 'z' in add_coordinates:
                 for i,variable in enumerate(List_1):
                    variable.add_aux_coord(z_coord,z_data_dims)
@@ -590,7 +590,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
                     List_1[i].rename(name) 
             cubelist_out.extend(List_1)
         else:
-            cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates_load,constraint=constraint)
+            cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates_load,constraint=constraint,lazy=lazy)
             #cube.data=np.abs(cube.data)
             cube=abs(cube)
             if 'z' in add_coordinates:
@@ -845,7 +845,7 @@ thompson_processes_mass= list(List_Processes_Thompson_Mass)
 thompson_processes_number= list(List_Processes_Thompson_Number)
 thompson_processes_number_split={}
 
-def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,constraint=None,add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False):
+def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,constraint=None,add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False,lazy=True):
 
     if microphysics_scheme=='morrison':
         if processes=='mass':
@@ -873,7 +873,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
 #            split_dict[i]=process+add_str
 
 
-        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
 
     if microphysics_scheme=='morrison_3D':
         if processes=='mass':
@@ -901,7 +901,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
 #            split_dict[i]=process+add_str
 
 
-        cube_list_out=load_wrf_variables_signed_3D(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed_3D(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
 
 
 
@@ -918,7 +918,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                 split_dict=thompson_processes_number_split
             else:
                 split_dict={}
-        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
  
     return cube_list_out
     
