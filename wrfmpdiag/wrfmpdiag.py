@@ -556,8 +556,8 @@ morrison_processes_number=[
 
 SBMfull_processes_mass=['QVAPOR']
 SBMfull_processes_number=['QVAPOR']
-SBMfull_processes_mass_split=defaultdict(dict)
-SBMfull_processes_number_split=defaultdict(dict)
+SBMfull_processes_mass_split=dict()
+SBMfull_processes_number_split=dict()
 
 
 
@@ -937,13 +937,13 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
         if processes=='mass':
             process_list=SBMfull_processes_mass
             if signed==True:
-                split_dict=SBMFull_processes_mass_split
+                split_dict=SBMfull_processes_mass_split
             else:
                 split_dict={}
         elif processes=='number':
-            process_list=SBMFull_processes_number
+            process_list=SBMfull_processes_number
             if signed==True:
-                split_dict=SBMFull_processes_number_split
+                split_dict=SBMfull_processes_number_split
             else:
                 split_dict={}
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
