@@ -149,8 +149,7 @@ List_Processes_Thompson_Number=[
          'PND_GCD',
          'PNW_IMI',   #  Ice -> Water
          'PNI_WFI'    #  Water -> Ice
-
-                              ]
+                             ]
 
 
 
@@ -550,6 +549,19 @@ morrison_processes_number=[
 #    return cubelist_out
 #    #return Dict
 
+
+#Start setting things up for the SBM:
+    
+# SBM Full (Dummy variables at the moment)
+
+SBMfull_processes_mass=['QVAPOR']
+SBMfull_processes_number=['QVAPOR']
+SBMfull_processes_mass_split=defaultdict(dict)
+SBMfull_processes_number_split=defaultdict(dict)
+
+
+
+
 def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False,lazy=True):
     from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
@@ -919,6 +931,26 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
             else:
                 split_dict={}
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
+
+
+    elif microphysics_scheme=='SBM_full':
+        if processes=='mass':
+            process_list=SBMfull_processes_mass
+            if signed==True:
+                split_dict=SBMFull_processes_mass_split
+            else:
+                split_dict={}
+        elif processes=='number':
+            process_list=SBMFull_processes_number
+            if signed==True:
+                split_dict=SBMFull_processes_number_split
+            else:
+                split_dict={}
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
+ 
+    else:
+        raise ValueError("Unknown microphysics_scheme")
+
  
     return cube_list_out
     
