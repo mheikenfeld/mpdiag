@@ -554,8 +554,8 @@ morrison_processes_number=[
     
 # SBM Full (Dummy variables at the moment)
 
-SBMfull_processes_mass=['QVAPOR']
-SBMfull_processes_number=['QVAPOR']
+SBMfull_processes_mass=['QVAPOR','QCLOUD']
+SBMfull_processes_number=['QVAPOR','QCLOUD']
 SBMfull_processes_mass_split=dict()
 SBMfull_processes_number_split=dict()
 
