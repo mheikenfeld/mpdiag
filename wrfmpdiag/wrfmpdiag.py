@@ -35,9 +35,10 @@ List_Processes_Thompson_Mass=[
          'PRV_REV',   #  Vapor->Water
          'PRR_WAU',   #  Vapor->Water
          'PRR_RCW',   #  Vapor->Water
-         'PRR_RCS',   #  Vapor->Water
-         'PRR_RCG',   #  Rain->Graupel
-         'PRR_GML',   #  Vapor->Water
+         'PRR_RCS',   #  Vapor->W ater
+         'PRR_RCG',   #  Rain-> Graupel
+         'PRR_GML',   #  Vapor-> Water
+         'PRR_SML',   #  Snow-> Rain
          'PRR_RCI',   #  Vapor->Water
          'PRI_INU',   #  Vapor->Water
          'PRI_IHM',   #  Vapor->Water
@@ -1659,7 +1660,7 @@ list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','PSACWS','PSACWI','PIAC
 lumped_colors_morrison['Freezing']=color_freezing
 
 list_lumped_names_morrison.append('Melting')
-list_lumped_processes_morrison.append(['PSMLT','PGMLT','PRACGI','PSACG','QIIM'])
+list_lumped_processes_morrison.append(['PSMLT','PGMLT','PRACI','PSACG','QIIM'])
 lumped_colors_morrison['Melting']=color_melting
 
 list_lumped_names_morrison.append('Rain formation')
