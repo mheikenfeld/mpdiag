@@ -1700,7 +1700,7 @@ lumped_colors_thompson['Freezing']=color_freezing
 
 
 list_lumped_names_thompson.append('Melting')
-list_lumped_processes_thompson.append(['PRR_SML','PRR_GML','E_PRR_RCG', 'PRW_IMI'])
+list_lumped_processes_thompson.append(['PRR_GML','E_PRR_RCG', 'PRW_IMI']) #missing:'PRR_SML',
 lumped_colors_thompson['Melting']=color_melting
 
 list_lumped_names_thompson.append('Rain formation')
