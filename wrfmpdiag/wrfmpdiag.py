@@ -1660,7 +1660,7 @@ list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','PSACWS','PSACWI','PIAC
 lumped_colors_morrison['Freezing']=color_freezing
 
 list_lumped_names_morrison.append('Melting')
-list_lumped_processes_morrison.append(['PSMLT','PGMLT','PRACI','PSACG','QIIM'])
+list_lumped_processes_morrison.append(['PSMLT','PGMLT','PRACI','QIIM'])
 lumped_colors_morrison['Melting']=color_melting
 
 list_lumped_names_morrison.append('Rain formation')
