@@ -1708,7 +1708,7 @@ list_lumped_processes_thompson.append(['PRR_WAU','PRR_RCW'])
 lumped_colors_thompson['Rain formation']=color_autoconversion
 
 list_lumped_names_thompson.append('Deposition')
-list_lumped_processes_thompson.append(['E_PRS_SDE','E_PRG_GDE','E_PRI_SDI','PRS_IDE','PRI_INU','PRI_IHA'])
+list_lumped_processes_thompson.append(['E_PRS_SDE','E_PRG_GDE','PRS_IDE','PRI_INU','PRI_IHA'])#,'E_PRI_SDI'??
 lumped_colors_thompson['Deposition']=color_deposition
 
 list_lumped_names_thompson.append('Sublimation')
