@@ -1656,7 +1656,7 @@ list_lumped_processes_morrison.append(['EPCC','PRE'])
 lumped_colors_morrison['Evaporation']=color_evaporation
 
 list_lumped_names_morrison.append('Freezing')
-list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','PSACWS','PSACWI','PIACR','PSACR','QMULTG','QMULTRG','QMULTS','PRACS','QMULTR','PSACWG','PGRACS','PRACG','PGSACW','QICF','QGRF','QNIRF'])
+list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','PSACWS','PSACWI','PIACR','QMULTG','QMULTRG','QMULTS','PRACS','QMULTR','PSACWG','PGRACS','PRACG','PGSACW','QICF','QGRF','QNIRF'])
 lumped_colors_morrison['Freezing']=color_freezing
 
 list_lumped_names_morrison.append('Melting')
@@ -1676,7 +1676,7 @@ list_lumped_processes_morrison.append(['EPRD','EPRDS','EPRDG','EVPMS','EVPMG',])
 lumped_colors_morrison['Sublimation']=color_sublimation
 
 list_lumped_names_morrison.append('Ice processes')
-list_lumped_processes_morrison.append(['PRAI','EPRCI','PRCI','PRACIS'])
+list_lumped_processes_morrison.append(['PRAI','EPRCI','PRCI','PRACIS','PSACR'])
 lumped_colors_morrison['Ice processes']=color_ice
 
 lumped_colors_morrison['Other']='grey'
