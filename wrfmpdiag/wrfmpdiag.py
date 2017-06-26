@@ -1731,14 +1731,14 @@ list_lumped_names_sbmfull=[]
 list_lumped_processes_sbmfull=[]
 lumped_colors_sbmfull={}
 
-list_lumped_names_sbmfull.append('Condensation')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Condensation']=color_condensation
-
-list_lumped_names_sbmfull.append('Evaporation')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Evaporation']=color_evaporation
-
+#list_lumped_names_sbmfull.append('Condensation')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Condensation']=color_condensation
+#
+#list_lumped_names_sbmfull.append('Evaporation')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Evaporation']=color_evaporation
+#
 list_lumped_names_sbmfull.append('Freezing')
 list_lumped_processes_sbmfull.append(['P_FRZ_ICE','P_FRZ_HAIL'])
 lumped_colors_sbmfull['Freezing']=color_freezing
@@ -1747,22 +1747,22 @@ list_lumped_names_sbmfull.append('Melting')
 list_lumped_processes_sbmfull.append(['P_MLT_ICE','P_MLT_SNOW','P_MLT_GRAUP','P_MLT_HAIL'])
 lumped_colors_sbmfull['Melting']=color_melting
 
-list_lumped_names_sbmfull.append('Rain formation')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Rain formation']=color_autoconversion
-
-list_lumped_names_sbmfull.append('Deposition')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Deposition']=color_deposition
-
-list_lumped_names_sbmfull.append('Sublimation')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Sublimation']=color_sublimation
-
-list_lumped_names_sbmfull.append('Ice processes')
-list_lumped_processes_sbmfull.append([])
-lumped_colors_sbmfull['Ice processes']=color_ice
-
+#list_lumped_names_sbmfull.append('Rain formation')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Rain formation']=color_autoconversion
+#
+#list_lumped_names_sbmfull.append('Deposition')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Deposition']=color_deposition
+#
+#list_lumped_names_sbmfull.append('Sublimation')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Sublimation']=color_sublimation
+#
+#list_lumped_names_sbmfull.append('Ice processes')
+#list_lumped_processes_sbmfull.append([])
+#lumped_colors_sbmfull['Ice processes']=color_ice
+#
 lumped_colors_sbmfull['Other']='grey'
 
 
