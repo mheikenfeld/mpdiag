@@ -1821,11 +1821,11 @@ def lump_processes(processes_in,microphysics=None,lumping='all',others=True):
         processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping,others=others)
     elif (microphysics=='thompson'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
-    elif (microphysics=='sbmfull'):
+    elif (microphysics=='SBM_full'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
     else:
-        raise ValueError('microphysics must be morrison, thompson or sbmfull')
-    return(processes_out)
+        raise ValueError('microphysics must be morrison, thompson or SBM_full')
+    return processes_out
 
 
 def lumped_latentheating(lumped_processes):
