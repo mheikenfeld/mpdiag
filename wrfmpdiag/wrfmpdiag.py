@@ -864,7 +864,6 @@ thompson_processes_number= list(List_Processes_Thompson_Number)
 thompson_processes_number_split={}
 
 def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,constraint=None,add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False,lazy=True):
-    print(microphysics_scheme)
     if microphysics_scheme=='morrison':
         if processes=='mass':
             process_list=morrison_processes_mass
@@ -893,7 +892,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
 
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose,lazy=lazy)
 
-    if microphysics_scheme=='morrison_3D':
+    elif microphysics_scheme=='morrison_3D':
         if processes=='mass':
             process_list=morrison_processes_mass
             #process_list.remove('PCCN')
