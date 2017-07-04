@@ -864,7 +864,7 @@ thompson_processes_number= list(List_Processes_Thompson_Number)
 thompson_processes_number_split={}
 
 def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,constraint=None,add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False,lazy=True):
-    #print(microphysics_scheme)
+    print(microphysics_scheme)
     if microphysics_scheme=='morrison':
         if processes=='mass':
             process_list=morrison_processes_mass
