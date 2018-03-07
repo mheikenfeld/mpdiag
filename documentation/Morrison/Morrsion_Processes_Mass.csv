@@ -1,0 +1,37 @@
+Variable ,Description (Code),Description,from,to,sign
+PRE, EVAP OF RAIN,Evaporation/Condensation,rain,vapor,negative
+PRA, ACCRETION DROPLETS BY RAIN,Accretion,cloud,rain,positive
+PRC, AUTOCONVERSION DROPLETS,Autoconversion,cloud,rain,positive
+MNUCCC, CHANGE Q DUE TO CONTACT FREEZ DROPLETS,Contact freezing (Droplets),cloud,ice,?
+MNUCCD, CHANGE Q FREEZING AEROSOL (PRIM ICE NUCLEATION),Primary ice nucleation,cloud,ice,?
+MNUCCR, CHANGE Q DUE TO CONTACT FREEZ RAIN,Contact freezing (Rain),rain,ice,?
+PRAI, CHANGE Q ACCRETION CLOUD ICE BY SNOW,Accretion (),ice,snow,positive
+PRCI, CHANGE Q AUTOCONVERSIN CLOUD ICE TO SNOW,Autoconversion ICE,ice,snow,both
+PSACWS, CHANGE Q DROPLET ACCRETION BY SNOW,Riming Snow,cloud,snow,positive
+PSACWI, CHANGE Q DROPLET ACCRETION BY CLOUD ICE,Riming Ice,cloud,ice,positive
+PCC, COND/EVAP DROPLETS,Evaporation/Condensation,vapor,cloud,both
+PCCN, CHANGE Q DROPLET ACTIVATION,Activation,vapor,cloud,?
+PRACS, CHANGE Q RAIN-SNOW COLLECTION                          to ICE or GRAUP ??????,,rain,snow,positive
+PIACR," CHANGE QR, ICE-RAIN COLLECTION",,rain,graupel,positive
+PRACI," CHANGE QI, ICE-RAIN COLLECTION",,ice,graupel,positive
+PIACRS," CHANGE QR, ICE RAIN COLLISION, ADDED TO SNOW",Ice-Rain Collision,rain,snow,positive
+PRACIS," CHANGE QI, ICE RAIN COLLISION, ADDED TO SNOW",Ice-Rain Collision,ice,snow,positive
+PRD, DEP CLOUD ICE,Deposition/Sublimation,vapor,ice,positive
+EPRD, SUBLIMATION CLOUD ICE,Sublimation of Ice,ice,vapor,negative
+PRDS, DEP SNOW,Deposition of snow,vapor,snow,positive
+EPRDS, SUBLIMATION SNOW,Sublimation of Snow,snow,vapor,negative
+PRDG, DEP OF GRAUPEL,deposition of Graupel,vapor,graupel,positive
+EPRDG, SUB OF GRAUPEL,Sublimation of Graupel,graupel,vapor,negative
+PSMLT, CHANGE Q MELTING SNOW TO RAIN,Snow Melting,snow,rain,negative
+EVPMS, CHNAGE Q MELTING SNOW EVAPORATING,Snow Melting and evaporating,snow,vapor,negative
+EVPMG, CHANGE Q MELTING OF GRAUPEL AND EVAPORATION,Graupel melting and evaporating,graupel,vapor,negative
+PGMLT, CHANGE Q MELTING OF GRAUPEL,Graupel melting,graupel,rain,negative
+QMULTG, CHANGE Q DUE TO ICE MULT DROPLETS/GRAUPEL,,cloud,ice,negative
+QMULTRG, CHANGE Q DUE TO ICE MULT RAIN/GRAUPEL,,rain,ice,negative
+QMULTS, CHANGE Q DUE TO ICE MULT DROPLETS/SNOW,,cloud,ice,negative
+QMULTR, CHANGE Q DUE TO ICE RAIN/SNOW,,rain,ice,negative
+PSACR, CONVERSION DUE TO COLL OF SNOW BY RAIN,Collection of snow by rain,snow,rain,positive
+PRACG, CHANGE IN Q COLLECTION RAIN BY GRAUPEL,Collection of rain by graupel,rain,graupel,positive
+PSACWG, CHANGE IN Q COLLECTION DROPLETS BY GRAUPEL,collection of droplets by graupel,cloud,graupel,positive
+PGSACW, CONVERSION Q TO GRAUPEL DUE TO COLLECTION DROPLETS BY SNOW,collection of droplets by snow,cloud,graupel,positive
+PGRACS, CONVERSION Q TO GRAUPEL DUE TO COLLECTION RAIN BY SNOW,collection of rain by snow,rain,graupel,positive

@@ -1,4 +1,4 @@
-Var,Description,Name,from,to
+Var,Description (Code),Description,from,to
   NSUBC     , LOSS OF NC DURING EVAP,Evaporation,,
   NSUBI     , LOSS OF NI DURING SUB.,,,
   NSUBS     , LOSS OF NS DURING SUB.,,,
@@ -21,6 +21,7 @@ Var,Description,Name,from,to
   NSMLTS    , CHANGE N MELTING SNOW,melting of snow,,
   NSMLTR    , CHANGE N MELTING SNOW TO RAIN,melting of snow to rain,,
   NIACRS     ," CHANGE N, ICE RAIN COLLISION, ADDED TO SNOW",Ice-rain collision,,
+  NIACR     ," CHANGE N, ICE-RAIN COLLECTION",,,
   NPRACG    , CHANGE N COLLECTION RAIN BY GRAUPEL,Collection of rain by graupel,,
   NPSACWG    , CHANGE N COLLECTION DROPLETS BY GRAUPEL,Collection of cloud water by graupel,,
   NSCNG    , CHANGE N CONVERSION TO GRAUPEL DUE TO COLLECTION DROPLETS BY SNOW,conversion of snow to graupel due to collection of cloud water,,
