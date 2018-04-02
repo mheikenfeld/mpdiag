@@ -983,7 +983,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
     return cubelist_out
 
 
-def calculate_RAMS_mp_path(filename,processes=None,microphysics_scheme=None,
+def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            signed=False,constraint=None,add_coordinates=None,
                            quantity='mixing ratio',accumulated='False',
                            parallel_pool=None,
