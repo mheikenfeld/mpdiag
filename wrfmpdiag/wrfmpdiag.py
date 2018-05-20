@@ -1,6 +1,6 @@
 from collections import defaultdict
 from wrfcube import loadwrfcube
-
+import logging
 
 def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
    cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
@@ -989,7 +989,7 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            parallel_pool=None,
                            dt_out=None,
                            debug_nproc=None,verbose=False):
-    if microphysics_scheme=='morrison':
+    if microphysics_scheme=='RAMS':
         if processes=='mass':
             process_list=RAMS_processes_mass_grouped
             #process_list.remove('PCCN')
@@ -2009,6 +2009,9 @@ def lump_processes(processes_in,microphysics=None,lumping='all',others=True):
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
     elif (microphysics=='SBM_full'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
+    elif (microphysics=='RAMS'):
+        processes_out=lump_cubelist(processes_in,list_lumped_names_RAMS, list_lumped_processes_RAMS,lumping=lumping,others=others)               
+
     else:
         raise ValueError('microphysics must be morrison, thompson or SBM_full')
     return processes_out
