@@ -2,3 +2,4 @@ from wrfmpdiag.wrfmpdiag import lump_processes,lumped_latentheating,lumped_laten
 from wrfmpdiag.wrfmpdiag import list_lumped_names_morrison,list_lumped_processes_morrison
 from wrfmpdiag.wrfmpdiag import list_lumped_names_thompson, list_lumped_processes_thompson
 from wrfmpdiag.wrfmpdiag import list_lumped_names_sbmfull, list_lumped_processes_sbmfull
+from wrfmpdiag.wrfmpdiag import load_latent_heating

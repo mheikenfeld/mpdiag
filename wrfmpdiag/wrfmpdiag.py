@@ -1,6 +1,6 @@
 from collections import defaultdict
 from wrfcube import loadwrfcube
-
+import logging
 
 def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
    cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
@@ -18,23 +18,24 @@ def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates
     cube=loadramscube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
     list_out=[]
     list_out.append(get_variable_neg(cube,name_neg))
-    list_out.append( get_variable_pos(cube,name_pos))
+    list_out.append(get_variable_pos(cube,name_pos))
     return list_out
 
 
 def get_variable_pos(cube,name_neg):
-   import numpy as np
-   cube_neg=cube[:]
-   cube_neg.data=np.clip(cube.data,a_max=np.inf,a_min=0)
+   from copy import deepcopy
+   from dask.array import clip
+   cube_neg=deepcopy(cube)
+   cube_neg.data=clip(cube_neg.core_data(),a_max=0)
    cube_neg.rename(name_neg)
    return cube_neg
 
 def get_variable_neg(cube,name_pos):
-   import numpy as np
-   cube_pos=cube[:]
-   cube_pos.data=np.abs(np.clip(cube.data,a_min=-np.inf,a_max=0))
+   from copy import deepcopy
+   from dask.array import clip
+   cube_pos=deepcopy(cube)
+   cube_pos.data=clip(cube_pos.core_data(),a_min=0)
    cube_pos.rename(name_pos)
-
    return cube_pos
    
 
@@ -989,7 +990,7 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            parallel_pool=None,
                            dt_out=None,
                            debug_nproc=None,verbose=False):
-    if microphysics_scheme=='morrison':
+    if microphysics_scheme=='RAMS':
         if processes=='mass':
             process_list=RAMS_processes_mass_grouped
             #process_list.remove('PCCN')
@@ -2009,6 +2010,9 @@ def lump_processes(processes_in,microphysics=None,lumping='all',others=True):
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
     elif (microphysics=='SBM_full'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
+    elif (microphysics=='RAMS'):
+        processes_out=lump_cubelist(processes_in,list_lumped_names_RAMS, list_lumped_processes_RAMS,lumping=lumping,others=others)               
+
     else:
         raise ValueError('microphysics must be morrison, thompson or SBM_full')
     return processes_out
@@ -2087,4 +2091,49 @@ def latentheating_grouped(lumped_latentheating):
 def latentheating_total(lumped_latentheating):
     LHR=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data +lumped_latentheating.extract_strict('Condensation').data+lumped_latentheating.extract_strict('Evaporation').data+lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition').data
     LHR.rename('LHR')
-    return LHR
+    return LHR 
+
+def load_latent_heating(filename,microphysics_scheme=None,constraint=None,add_coordinates=None):
+    from iris.cube import CubeList
+    from wrfcube.wrfcube import variable_list
+    
+    latent=CubeList()
+    
+    if 'LHREVP' in variable_list(filename):
+        
+#        LHREVP=loadwrfcube(filename,'LHREVP',constraint=constraint,add_coordinates=add_coordinates)
+#        LHRFRZ=loadwrfcube(filename,'LHRFRZ',constraint=constraint,add_coordinates=add_coordinates)
+#        LHRSUB=loadwrfcube(filename,'LHRSUB',constraint=constraint,add_coordinates=add_coordinates)
+    
+        LHREVP=loadwrfcube(filename,'LHREVP',constraint=constraint,add_coordinates=add_coordinates)
+        LHRFRZ=loadwrfcube(filename,'LHRFRZ',constraint=constraint,add_coordinates=add_coordinates)
+        
+        LHRSUB=loadwrfcube(filename,'LHRSUB',constraint=constraint,add_coordinates=add_coordinates)
+        LHRSUB.rename('LHRSUB')
+        
+
+        latent.append(LHREVP)
+        latent.append(LHRFRZ)
+        latent.append(LHRSUB)
+        
+        
+        
+
+        latent.append(split_sign_variable(filename,'LHREVP',name_neg='latent_heating_rate_of_evaporation',name_pos='latent_heating_rate_of_condensation',add_coordinates=None,constraint=None))
+        latent.append(split_sign_variable(filename,'LHRFRZ',name_neg='latent_heating_rate_of_melting',name_pos='latent_heating_rate_of_freezing',add_coordinates=None,constraint=None))
+        latent.append(split_sign_variable(filename,'LHRSUB',name_neg='latent_heating_rate_of_sublimation',name_pos='latent_heating_rate_of_deposition',add_coordinates=None,constraint=None))
+
+        
+    if microphysics_scheme in ["morrison","thompson"]:
+        LHR=LHREVP+LHRFRZ+LHRSUB
+        LHR.rename('latent_heating_rate')
+        latent.append(LHR)
+
+
+    elif (microphysics_scheme in ["SBM_full"] and 'LHRTOT' in variable_list(filename)):
+        LHR=loadwrfcube(filename,'LHRTOT',constraint=constraint,add_coordinates=add_coordinates)
+        LHR.rename('latent_heating_rate')
+        latent.append(LHR)
+
+    
+    return latent
