@@ -21,20 +21,21 @@ def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates
     list_out.append(get_variable_pos(cube,name_pos))
     return list_out
 
-
-def get_variable_pos(cube,name_neg):
+def get_variable_neg(cube,name_neg):
    from copy import deepcopy
    from dask.array import clip
+   from numpy import inf
    cube_neg=deepcopy(cube)
-   cube_neg.data=clip(cube_neg.core_data(),a_max=0)
+   cube_neg.data=clip(cube_neg.core_data(),-inf,0)
    cube_neg.rename(name_neg)
    return cube_neg
 
-def get_variable_neg(cube,name_pos):
+def get_variable_pos(cube,name_pos):
    from copy import deepcopy
    from dask.array import clip
+   from numpy import inf
    cube_pos=deepcopy(cube)
-   cube_pos.data=clip(cube_pos.core_data(),a_min=0)
+   cube_pos.data=clip(cube_pos.core_data(),0,inf)
    cube_pos.rename(name_pos)
    return cube_pos
    
