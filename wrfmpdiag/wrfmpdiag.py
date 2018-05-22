@@ -958,6 +958,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
     if quantity=='volume':
         rho=deriveramscube(filename,'density',add_coordinates=add_coordinates,constraint=constraint)
     for variable in variable_list:
+        print(variable)
         if verbose:
             logging('loading'+ str(variable))
 
@@ -1894,12 +1895,12 @@ lumped_colors_sbmfull['Other']='grey'
 
 RAMS_processes_mass_grouped=[
 'VAPLIQT',
-'VAPICET	',
+'VAPICET',
 'MELTICET',
-'CLD2RAINT'
-'RIMECLDT'
-'RAIN2ICET'
-'ICE2RAINT'
+'CLD2RAINT',
+'RIMECLDT',
+'RAIN2ICET',
+'ICE2RAINT',
 'AGGREGATET'	
 ]
     
@@ -1952,7 +1953,7 @@ lumped_colors_RAMS['Other']='grey'
 
 
 
-def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='all',others=True):
+def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',others=True):
     from iris.cube import CubeList
     if lumping=='basic':
         list_names=[]
@@ -2004,7 +2005,7 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='all',others=
     return cubelist_out
 
 
-def lump_processes(processes_in,microphysics=None,lumping='all',others=True):
+def lump_processes(processes_in,microphysics=None,lumping='basic',others=True):
     if (microphysics=='morrison'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping,others=others)
     elif (microphysics=='thompson'):
