@@ -2005,14 +2005,14 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',other
     return cubelist_out
 
 
-def lump_processes(processes_in,microphysics=None,lumping='basic',others=True):
-    if (microphysics=='morrison'):
+def lump_processes(processes_in,microphysics_scheme=None,lumping='basic',others=True):
+    if (microphysics_scheme=='morrison'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping,others=others)
-    elif (microphysics=='thompson'):
+    elif (microphysics_scheme=='thompson'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
-    elif (microphysics=='SBM_full'):
+    elif (microphysics_scheme=='SBM_full'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
-    elif (microphysics=='RAMS'):
+    elif (microphysics_scheme=='RAMS'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_RAMS, list_lumped_processes_RAMS,lumping=lumping,others=others)               
 
     else:
@@ -2020,7 +2020,7 @@ def lump_processes(processes_in,microphysics=None,lumping='basic',others=True):
     return processes_out
 
 
-def lumped_latentheating(processes_in,microphysics=None):
+def lumped_latentheating(processes_in,microphysics_scheme=None):
     from iris.cube import CubeList
     from iris.coords import AuxCoord
     cubelist_out=CubeList()
@@ -2029,7 +2029,7 @@ def lumped_latentheating(processes_in,microphysics=None):
     SLH_fusion_vaporisation = AuxCoord(334e3+2.26476e6,long_name='specific latent heat of fusion and vaporisation', units='joules per kilogram')
 
 
-    lumped_processes=lump_processes(processes_in,microphysics=microphysics,lumping='latent',others=False)
+    lumped_processes=lump_processes(processes_in,microphysics_scheme=microphysics_scheme,lumping='latent',others=False)
     for cube in lumped_processes:
         name=cube.name()
         if name=='Condensation':
@@ -2121,9 +2121,9 @@ def load_latent_heating(filename,microphysics_scheme=None,constraint=None,add_co
         
         
 
-        latent.append(split_sign_variable(filename,'LHREVP',name_neg='latent_heating_rate_of_evaporation',name_pos='latent_heating_rate_of_condensation',add_coordinates=None,constraint=None))
-        latent.append(split_sign_variable(filename,'LHRFRZ',name_neg='latent_heating_rate_of_melting',name_pos='latent_heating_rate_of_freezing',add_coordinates=None,constraint=None))
-        latent.append(split_sign_variable(filename,'LHRSUB',name_neg='latent_heating_rate_of_sublimation',name_pos='latent_heating_rate_of_deposition',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable(filename,'LHREVP',name_neg='latent_heating_rate_of_evaporation',name_pos='latent_heating_rate_of_condensation',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable(filename,'LHRFRZ',name_neg='latent_heating_rate_of_melting',name_pos='latent_heating_rate_of_freezing',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable(filename,'LHRSUB',name_neg='latent_heating_rate_of_sublimation',name_pos='latent_heating_rate_of_deposition',add_coordinates=None,constraint=None))
 
         
     if microphysics_scheme in ["morrison","thompson"]:
