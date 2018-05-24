@@ -583,7 +583,6 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
     from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
     from iris.analysis.maths import abs
-    from datetime import datetime
     cubelist_out=CubeList()
     
     if (debug_nproc is not None):
@@ -603,7 +602,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
         add_coordinates_load.remove('z')
     for variable in variable_list:
         if verbose:
-            print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ': ', 'loading', variable)
+            logging.debug('loading ' + str(variable))
 
         if variable in List_signed:
             List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],add_coordinates=add_coordinates_load,constraint=constraint)
@@ -960,7 +959,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
     for variable in variable_list:
         print(variable)
         if verbose:
-            logging('loading'+ str(variable))
+            logging('loading '+ str(variable))
 
         if variable in List_signed:
             List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],
