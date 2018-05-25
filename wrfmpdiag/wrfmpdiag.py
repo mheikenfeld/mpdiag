@@ -959,7 +959,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
     for variable in variable_list:
         print(variable)
         if verbose:
-            logging('loading '+ str(variable))
+            logging.debug('loading '+ str(variable))
 
         if variable in List_signed:
             List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],
