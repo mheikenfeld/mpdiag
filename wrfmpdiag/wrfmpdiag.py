@@ -314,7 +314,7 @@ SBMfull_processes_number_split=dict()
 
 def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',
                               absolute_value=False,parallel_pool=None,
-                              debug_nproc=None,verbose=False):
+                              debug_nproc=None):
     from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
     from copy import deepcopy
@@ -338,8 +338,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
             z_data_dims=cube.coord_dims('geopotential_height')
             add_coordinates_load.remove('z')
     for variable in variable_list:
-        if verbose:
-            logging.debug('loading ' + str(variable))
+        logging.debug('loading ' + str(variable))
 
         if variable in List_signed:
             List_1=split_sign_variable(filename,variable,
@@ -375,7 +374,7 @@ thompson_processes_number= list(List_Processes_Thompson_Number)
 thompson_processes_number_split={}
 
 def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,absolute_value=False,constraint=None,
-                          add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False):
+                          add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None):
     if microphysics_scheme=='morrison':
         if processes=='mass':
             process_list=morrison_processes_mass
@@ -395,7 +394,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
 
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
                                                 add_coordinates=add_coordinates,quantity=quantity,
-                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
 
     elif microphysics_scheme=='thompson':
         if processes=='mass':
@@ -412,7 +411,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                 split_dict={}
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
                                                 add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,
-                                                debug_nproc=debug_nproc,verbose=verbose)
+                                                debug_nproc=debug_nproc)
 
 
     elif microphysics_scheme=='SBM_full':
@@ -430,7 +429,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                 split_dict={}
         cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
                                                 add_coordinates=add_coordinates,quantity=quantity,
-                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
  
     else:
         raise ValueError("Unknown microphysics_scheme")
@@ -445,7 +444,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
                                dt_out=None,
                                absolute_value=False,
                                parallel_pool=None,
-                               debug_nproc=None,verbose=False):
+                               debug_nproc=None):
     from ramscube import loadramscube, deriveramscube
     from iris.cube import CubeList
     from copy import deepcopy
@@ -462,8 +461,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
     add_coordinates_load=deepcopy(add_coordinates)
 
     for variable in variable_list:
-        if verbose:
-            logging.debug('loading '+ str(variable))
+        logging.debug('loading '+ str(variable))
 
         if variable in List_signed:
             List_1=split_sign_variable_rams(filename,variable,
@@ -494,7 +492,7 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            quantity='mixing ratio',accumulated='False',
                            parallel_pool=None,
                            dt_out=None,
-                           debug_nproc=None,verbose=False):
+                           debug_nproc=None):
     if microphysics_scheme=='RAMS':
         if processes=='mass':
             process_list=RAMS_processes_mass_grouped
@@ -510,7 +508,7 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
         #     else:
         #         split_dict={}    
 
-        cube_list_out=load_rams_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_rams_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
  
 
     else:
