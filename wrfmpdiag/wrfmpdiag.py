@@ -2,38 +2,46 @@ from collections import defaultdict
 from wrfcube import loadwrfcube
 import logging
 
-def split_sign_variable(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
-   cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
-   list_out=[]
-   list_out.append(get_variable_neg(cube,name_neg))
-   list_out.append( get_variable_pos(cube,name_pos))
-   return list_out
+def split_sign_variable(filename,variable,name_neg=None,name_pos=None,add_coordinates=None,constraint=None,absolute_value=False):
+    if name_neg is None:
+        name_neg=variable+'_neg'
+    if name_pos is None:
+        name_pos=variable+'_pos'
+    cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
+    list_out=[]
+    list_out.append(get_variable_neg(cube,name_neg,absolute_value=absolute_value))
+    list_out.append(get_variable_pos(cube,name_pos,absolute_value=absolute_value))
+    return list_out
 
-def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None):
+def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None,absolute_value=False):
     from ramscube import loadramscube
     cube=loadramscube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
     list_out=[]
-    list_out.append(get_variable_neg(cube,name_neg))
-    list_out.append(get_variable_pos(cube,name_pos))
+    list_out.append(get_variable_neg(cube,name_neg,absolute_value=absolute_value))
+    list_out.append(get_variable_pos(cube,name_pos,absolute_value=absolute_value))
     return list_out
 
-def get_variable_neg(cube,name_neg):
-   from copy import deepcopy
-   from dask.array import clip
-   from numpy import inf
-   cube_neg=deepcopy(cube)
-   cube_neg.data=clip(cube_neg.core_data(),-inf,0)
-   cube_neg.rename(name_neg)
-   return cube_neg
+def get_variable_neg(cube,name_neg,absolute_value=False):
+    from copy import deepcopy
+    from dask.array import clip
+    from numpy import inf
+    cube_neg=deepcopy(cube)
+    cube_neg.data=clip(cube_neg.core_data(),-inf,0)
+    if absolute_value:
+        cube_neg.data=abs(cube_neg.core_data())
+    cube_neg.rename(name_neg)
+    return cube_neg
 
-def get_variable_pos(cube,name_pos):
-   from copy import deepcopy
-   from dask.array import clip
-   from numpy import inf
-   cube_pos=deepcopy(cube)
-   cube_pos.data=clip(cube_pos.core_data(),0,inf)
-   cube_pos.rename(name_pos)
-   return cube_pos
+def get_variable_pos(cube,name_pos,absolute_value=False):
+    from copy import deepcopy
+    from dask.array import clip
+    from numpy import inf
+    cube_pos=deepcopy(cube)
+    cube_pos.data=clip(cube_pos.core_data(),0,inf)
+    if absolute_value:
+        cube_pos.data=abs(cube_pos.core_data())
+    cube_pos.rename(name_pos)
+    return cube_pos
    
 List_Processes_Thompson_Mass=[
          'PRW_VCD',   #  Vapor->Water
@@ -201,7 +209,7 @@ morrison_processes_mass=[
 Proclist_Morr_mass=list(morrison_processes_mass)
 
 morrison_processes_mass_split=defaultdict(dict)
-morrison_processes_mass_split['PCC']=['EPCC','PCC']
+morrison_processes_mass_split['PCC']=['PCC','EPCC']
 
 Proclist_Morr_mass_signed=list(Proclist_Morr_mass).extend(['EPCC'])
 
@@ -304,10 +312,13 @@ SBMfull_processes_number_split=dict()
 
 
 
-def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',absolute_value=False,parallel_pool=None,debug_nproc=None,verbose=False):
+def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=None,constraint=None,quantity='mixing ratio',
+                              absolute_value=False,parallel_pool=None,
+                              debug_nproc=None,verbose=False):
     from wrfcube import loadwrfcube, derivewrfcube
     from iris.cube import CubeList
-    from iris.analysis.maths import abs
+    from copy import deepcopy
+#    from iris.analysis.maths import abs
     cubelist_out=CubeList()
     
     if (debug_nproc is not None):
@@ -316,25 +327,29 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
     List_signed=list(split_dict.keys())
 
 
-    add_coordinates_load=add_coordinates[:]
+    add_coordinates_load=deepcopy(add_coordinates)
     if quantity=='volume':
         rho=derivewrfcube(filename,'density',add_coordinates=add_coordinates,constraint=constraint)
-    if 'z' in add_coordinates:   
-        cube=loadwrfcube(filename,variable_list[1],add_coordinates=add_coordinates,constraint=constraint)
-        z_coord=cube.coord('geopotential_height')
-        #p_coord=cube.coord('pressure')
-        z_data_dims=cube.coord_dims('geopotential_height')
-        add_coordinates_load.remove('z')
+    if add_coordinates is not None:
+        if 'z' in add_coordinates:   
+            cube=loadwrfcube(filename,variable_list[1],add_coordinates=add_coordinates,constraint=constraint)
+            z_coord=cube.coord('geopotential_height')
+            #p_coord=cube.coord('pressure')
+            z_data_dims=cube.coord_dims('geopotential_height')
+            add_coordinates_load.remove('z')
     for variable in variable_list:
         if verbose:
             logging.debug('loading ' + str(variable))
 
         if variable in List_signed:
-            List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],add_coordinates=add_coordinates_load,constraint=constraint)
-            if 'z' in add_coordinates:
-                for i,variable in enumerate(List_1):
-                   variable.add_aux_coord(z_coord,z_data_dims)
-                   List_1[i]=variable
+            List_1=split_sign_variable(filename,variable,
+                                       name_pos=split_dict[variable][0],name_neg=split_dict[variable][1],
+                                       add_coordinates=add_coordinates_load,constraint=constraint,absolute_value=absolute_value)
+            if add_coordinates is not None:
+                if 'z' in add_coordinates:
+                    for i,variable in enumerate(List_1):
+                       variable.add_aux_coord(z_coord,z_data_dims)
+                       List_1[i]=variable
             if quantity=='volume':
                 for i,variable in enumerate(List_1):
                     name=variable.name()
@@ -343,9 +358,11 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
             cubelist_out.extend(List_1)
         else:
             cube=loadwrfcube(filename,variable,add_coordinates=add_coordinates_load,constraint=constraint)
-            cube=abs(cube)
-            if 'z' in add_coordinates:
-                cube.add_aux_coord(z_coord,z_data_dims)
+            if absolute_value:
+                cube.data=abs(cube.core_data())
+            if add_coordinates is not None:
+                if 'z' in add_coordinates:
+                    cube.add_aux_coord(z_coord,z_data_dims)
             if quantity=='volume':
                 cube=cube*rho
             cube.rename(variable)
@@ -357,7 +374,7 @@ thompson_processes_mass= list(List_Processes_Thompson_Mass)
 thompson_processes_number= list(List_Processes_Thompson_Number)
 thompson_processes_number_split={}
 
-def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,constraint=None,
+def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, signed=False,absolute_value=False,constraint=None,
                           add_coordinates=None,quantity='mixing ratio',parallel_pool=None,debug_nproc=None,verbose=False):
     if microphysics_scheme=='morrison':
         if processes=='mass':
@@ -376,7 +393,9 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
 
 
 
-        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
+                                                add_coordinates=add_coordinates,quantity=quantity,
+                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
 
     elif microphysics_scheme=='thompson':
         if processes=='mass':
@@ -391,7 +410,9 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                 split_dict=thompson_processes_number_split
             else:
                 split_dict={}
-        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
+                                                add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,
+                                                debug_nproc=debug_nproc,verbose=verbose)
 
 
     elif microphysics_scheme=='SBM_full':
@@ -407,7 +428,9 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                 split_dict=SBMfull_processes_number_split
             else:
                 split_dict={}
-        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
+        cube_list_out=load_wrf_variables_signed(filename,variable_list=process_list,split_dict=split_dict,absolute_value=absolute_value,
+                                                add_coordinates=add_coordinates,quantity=quantity,
+                                                constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc,verbose=verbose)
  
     else:
         raise ValueError("Unknown microphysics_scheme")
@@ -425,7 +448,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
                                debug_nproc=None,verbose=False):
     from ramscube import loadramscube, deriveramscube
     from iris.cube import CubeList
-    from iris.analysis.maths import abs
+    from copy import deepcopy
     cubelist_out=CubeList()
     
     if (debug_nproc is not None):
@@ -433,16 +456,18 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
 
     List_signed=list(split_dict.keys())
 
-
-    add_coordinates_load=add_coordinates[:]
     if quantity=='volume':
-        rho=deriveramscube(filename,'density',add_coordinates=add_coordinates,constraint=constraint)
+        rho=deriveramscube(filename,'air_density',add_coordinates=add_coordinates,constraint=constraint)    
+        
+    add_coordinates_load=deepcopy(add_coordinates)
+
     for variable in variable_list:
         if verbose:
             logging.debug('loading '+ str(variable))
 
         if variable in List_signed:
-            List_1=split_sign_variable(filename,variable,split_dict[variable][0],split_dict[variable][1],
+            List_1=split_sign_variable_rams(filename,variable,
+                                       name_pos=split_dict[variable][0],name_neg=split_dict[variable][1],
                                        add_coordinates=add_coordinates_load,constraint=constraint)
             if quantity=='volume':
                 for i,variable in enumerate(List_1):
@@ -452,7 +477,7 @@ def load_rams_variables_signed(filename,variable_list,split_dict,
             cubelist_out.extend(List_1)
         else:
             cube=loadramscube(filename,variable,add_coordinates=add_coordinates_load,constraint=constraint)
-            cube=abs(cube)
+            cube.data=abs(cube.core_data())
             if quantity=='volume':
                 cube=cube*rho
             cube.rename(variable)
@@ -781,10 +806,21 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
 color_condensation=   '#4b86c2'   #  bright blue
 color_evaporation=    '#ffd633'   #  yellow
 color_freezing=       '#002266'   #  dark blue
+color_dropletfreezing='#7d86fb'   #  bright cornflower blue
+color_rainfreezing=   '#0000B2'   #  blue
 color_riming=         '#7647A2'   #  purple
+color_dropletriming=  '#AA8CC5'   #  purple
+color_rainriming=     '#7647A2'   #  purple
 color_melting=        '#ff9a00'   #  orange
 color_deposition=     '#34dabe'   #  cyan
+color_graupeldeposition= '#004c4c'   #  darkcyan
+color_icedeposition=     '#99ffff'   #  lightcyan
+color_snowdeposition=    '#009999'   #  mediumcyan
 color_sublimation=    '#FBA69C'   #  salmon
+color_graupelsublimation=    '#964c44'   #  darksalmon
+color_icesublimation=    '#fcbfb8'   #  lightsalmon
+color_snowsublimation=    '#e17366'   #  mediumsalmon
+
 color_ice=            '#D4F0FF'   #  icy blue
 color_warmrain=       '#90db26'   #  green
 color_autoconversion= '#007F00'   #  darkgreen
@@ -808,7 +844,7 @@ lumped_colors_morrison['Evaporation']=color_evaporation
 lumped_names_morrison['Evaporation']='Evaporation'
 
 list_lumped_names_morrison.append('Freezing')
-list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','MNUCCD','PSACWS','PSACWI','PIACR','QMULTG','QMULTRG','QMULTS','PRACS','QMULTR','PSACWG','PGRACS','PRACG','PGSACW','QICF','QGRF','QNIRF'])
+list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','MNUCCD','PSACWS','PSACWI','PIACR','QMULTG','QMULTRG','QMULTS','PRACS','PIACRS','QMULTR','PSACWG','PGRACS','PRACG','PGSACW','QICF','QGRF','QNIRF'])
 lumped_colors_morrison['Freezing']=color_freezing
 lumped_names_morrison['Freezing']='Freezing'
 
@@ -817,10 +853,30 @@ list_lumped_processes_morrison.append(['MNUCCC','MNUCCR','MNUCCD','QICF','QGRF',
 lumped_colors_morrison['Pure Freezing']=color_freezing
 lumped_names_morrison['Pure Freezing']='Freezing'
 
+list_lumped_names_morrison.append('Droplet Freezing')
+list_lumped_processes_morrison.append(['MNUCCC','MNUCCD','QICF'])
+lumped_colors_morrison['Droplet Freezing']=color_dropletfreezing
+lumped_names_morrison['Droplet Freezing']='Droplet Freezing'
+
+list_lumped_names_morrison.append('Rain Freezing')
+list_lumped_processes_morrison.append(['MNUCCR','QGRF','QNIRF'])
+lumped_colors_morrison['Rain Freezing']=color_rainfreezing
+lumped_names_morrison['Rain Freezing']='Rain Freezing'
+
 list_lumped_names_morrison.append('Riming')
-list_lumped_processes_morrison.append(['PSACWS','PSACWI','PIACR','QMULTG','QMULTRG','QMULTS','PRACS','QMULTR','PSACWG','PGRACS','PRACG','PGSACW'])
+list_lumped_processes_morrison.append(['PSACWS','PSACWI','PIACR','QMULTG','QMULTS','PRACS','QMULTR','QMULTRG','PSACWG','PGRACS','PIACRS','PRACG','PGSACW'])
 lumped_colors_morrison['Riming']=color_riming
 lumped_names_morrison['Riming']='Riming'
+
+list_lumped_names_morrison.append('Droplet Riming')
+list_lumped_processes_morrison.append(['PSACWS','PSACWI','QMULTG','QMULTS','PSACWG','PGSACW'])
+lumped_colors_morrison['Droplet Riming']=color_dropletriming
+lumped_names_morrison['Droplet Riming']='Droplet Riming'
+
+list_lumped_names_morrison.append('Rain Riming')
+list_lumped_processes_morrison.append(['PIACR','PRACS','QMULTR','QMULTRG','PGRACS','PRACG','PIACRS'])
+lumped_colors_morrison['Rain Riming']=color_rainriming
+lumped_names_morrison['Rain Riming']='Rain Riming'
 
 list_lumped_names_morrison.append('Melting')
 list_lumped_processes_morrison.append(['PSMLT','PGMLT','QIIM'])
@@ -852,11 +908,41 @@ list_lumped_processes_morrison.append(['PRD','PRDS','PRDG','MNUCCD'])
 lumped_colors_morrison['Deposition']=color_deposition
 lumped_names_morrison['Deposition']='Deposition'
 
+list_lumped_names_morrison.append('Graupel Deposition')
+list_lumped_processes_morrison.append(['PRDG'])
+lumped_colors_morrison['Graupel Deposition']=color_graupeldeposition
+lumped_names_morrison['Graupel Deposition']='Graupel Deposition'
+
+list_lumped_names_morrison.append('Ice Deposition')
+list_lumped_processes_morrison.append(['PRD','MNUCCD'])
+lumped_colors_morrison['Ice Deposition']=color_icedeposition
+lumped_names_morrison['Ice Deposition']='Ice Deposition'
+
+list_lumped_names_morrison.append('Snow Deposition')
+list_lumped_processes_morrison.append(['PRDS'])
+lumped_colors_morrison['Snow Deposition']=color_snowdeposition
+lumped_names_morrison['Snow Deposition']='Snow Deposition'
+
 list_lumped_names_morrison.append('Sublimation')
-list_lumped_processes_morrison.append(['EPRD','EPRDS','EPRDG','EVPMS','EVPMG',])
+list_lumped_processes_morrison.append(['EPRD','EPRDS','EPRDG','EVPMS','EVPMG'])
 lumped_colors_morrison['Sublimation']=color_sublimation
 lumped_names_morrison['Sublimation']='Sublimation'
 
+list_lumped_names_morrison.append('Graupel Sublimation')
+list_lumped_processes_morrison.append(['EPRDG','EVPMG'])
+lumped_colors_morrison['Graupel Sublimation']=color_graupelsublimation
+lumped_names_morrison['Graupel Sublimation']='Graupel Sublimation'
+
+list_lumped_names_morrison.append('Ice Sublimation')
+list_lumped_processes_morrison.append(['EPRD'])
+lumped_colors_morrison['Ice Sublimation']=color_icesublimation
+lumped_names_morrison['Ice Sublimation']='Ice Sublimation'
+
+list_lumped_names_morrison.append('Snow Sublimation')
+list_lumped_processes_morrison.append(['EPRDS','EVPMS'])
+lumped_colors_morrison['Snow Sublimation']=color_snowsublimation
+lumped_names_morrison['Snow Sublimation']='Snow Sublimation'
+#
 list_lumped_names_morrison.append('Ice processes')
 list_lumped_processes_morrison.append(['PRAI','PRCI','PRACIS','PSACR','PRACI'])
 lumped_colors_morrison['Ice processes']=color_ice
@@ -871,17 +957,17 @@ lumped_colors_thompson={}
 lumped_names_thompson={}
 
 list_lumped_names_thompson.append('Condensation')
-list_lumped_processes_thompson.append(['E_PRW_VCD'])
+list_lumped_processes_thompson.append(['PRW_VCD'])
 lumped_colors_thompson['Condensation']=color_condensation
 lumped_names_thompson['Condensation']='Condensation'
 
 list_lumped_names_thompson.append('Evaporation')
-list_lumped_processes_thompson.append(['PRW_VCD','PRV_REV'])
+list_lumped_processes_thompson.append(['E_PRW_VCD','PRV_REV'])
 lumped_colors_thompson['Evaporation']=color_evaporation
 lumped_names_thompson['Evaporation']='Evaporation'
 
 list_lumped_names_thompson.append('Freezing')
-list_lumped_processes_thompson.append(['PRG_RFZ','PRI_WFZ','PRI_RFZ','PRR_RCG','PRG_GCW','PRG_SCW','PRS_SCW','PRR_RCS','PRG_RCS','PRR_RCI','PRI_WFI'])
+list_lumped_processes_thompson.append(['PRG_RFZ','PRI_WFZ','PRI_RFZ','PRR_RCG','PRG_GCW','PRG_SCW','PRS_SCW','PRR_RCS','PRR_RCI','PRI_WFI'])
 lumped_colors_thompson['Freezing']=color_freezing
 lumped_names_thompson['Freezing']='Freezing'
 
@@ -890,18 +976,38 @@ list_lumped_processes_thompson.append(['PRG_RFZ','PRI_WFZ','PRI_RFZ','PRI_WFI'])
 lumped_colors_thompson['Pure Freezing']=color_freezing
 lumped_names_thompson['Pure Freezing']='Freezing'
 
+list_lumped_names_thompson.append('Droplet Freezing')
+list_lumped_processes_thompson.append(['PRI_WFZ','PRI_WFI'])
+lumped_colors_thompson['Droplet Freezing']=color_dropletfreezing
+lumped_names_thompson['Droplet Freezing']='Droplet Freezing'
+
+list_lumped_names_thompson.append('Rain Freezing')
+list_lumped_processes_thompson.append(['PRG_RFZ','PRI_RFZ'])
+lumped_colors_thompson['Rain Freezing']=color_rainfreezing
+lumped_names_thompson['Rain Freezing']='Rain Freezing'
+
 list_lumped_names_thompson.append('Riming')
-list_lumped_processes_thompson.append(['PRR_RCG','PRG_GCW','PRG_SCW','PRS_SCW','PRR_RCS','PRG_RCS','PRR_RCI'])
+list_lumped_processes_thompson.append(['PRR_RCG','PRG_GCW','PRG_SCW','PRS_SCW','PRR_RCS','PRR_RCI'])
 lumped_colors_thompson['Riming']=color_riming
 lumped_names_thompson['Riming']='Riming'
 
+list_lumped_names_thompson.append('Droplet Riming')
+list_lumped_processes_thompson.append(['PRG_GCW','PRG_SCW','PRS_SCW'])
+lumped_colors_thompson['Droplet Riming']=color_dropletriming
+lumped_names_thompson['Droplet Riming']='Droplet Riming'
+
+list_lumped_names_thompson.append('Rain Riming')
+list_lumped_processes_thompson.append(['PRR_RCG','PRR_RCS','PRR_RCI'])
+lumped_colors_thompson['Rain Riming']=color_rainriming
+lumped_names_thompson['Rain Riming']='Rain Riming'
+
 list_lumped_names_thompson.append('Melting')
-list_lumped_processes_thompson.append(['PRR_GML', 'PRW_IMI','PRR_SML','E_PRR_RCG'])
+list_lumped_processes_thompson.append(['PRR_GML', 'PRW_IMI','PRR_SML','E_PRR_RCG','E_PRR_RCS'])
 lumped_colors_thompson['Melting']=color_melting
 lumped_names_thompson['Melting']='Melting'
 
 list_lumped_names_thompson.append('Melting to Rain')
-list_lumped_processes_thompson.append(['PRR_GML','PRR_SML','E_PRR_RCG'])
+list_lumped_processes_thompson.append(['PRR_GML','PRR_SML','E_PRR_RCG','E_PRR_RCS'])
 lumped_colors_thompson['Melting to Rain']=color_melting
 lumped_names_thompson['Melting to Rain']='Melting'
 
@@ -921,17 +1027,88 @@ lumped_colors_thompson['Accretion']=color_accretion
 lumped_names_thompson['Accretion']='Accretion'
 
 list_lumped_names_thompson.append('Deposition')
-list_lumped_processes_thompson.append(['E_PRS_SDE','E_PRG_GDE','PRS_IDE','PRI_INU','PRI_IHA'])#,'E_PRI_SDI'??
+list_lumped_processes_thompson.append(['PRG_GDE','PRS_SDE','PRI_IDE','PRS_IDE','PRI_INU','PRI_IHA'])
 lumped_colors_thompson['Deposition']=color_deposition
 lumped_names_thompson['Deposition']='Deposition'
 
+list_lumped_names_thompson.append('Graupel Deposition')
+list_lumped_processes_thompson.append(['PRG_GDE'])
+lumped_colors_thompson['Graupel Deposition']=color_graupeldeposition
+lumped_names_thompson['Graupel Deposition']='Graupel Deposition'
+
+list_lumped_names_thompson.append('Ice Deposition')
+list_lumped_processes_thompson.append(['PRS_IDE','PRI_INU','PRI_IHA'])
+lumped_colors_thompson['Ice Deposition']=color_icedeposition
+lumped_names_thompson['Ice Deposition']='Ice Deposition'
+
+list_lumped_names_thompson.append('Snow Deposition')
+list_lumped_processes_thompson.append(['PRS_SDE'])
+lumped_colors_thompson['Snow Deposition']=color_snowdeposition
+lumped_names_thompson['Snow Deposition']='Snow Deposition'
+
 list_lumped_names_thompson.append('Sublimation')
-list_lumped_processes_thompson.append(['PRG_GDE','PRS_SDE','PRI_IDE'])
+list_lumped_processes_thompson.append(['E_PRI_SDE','E_PRS_SDE','E_PRG_GDE'])
 lumped_colors_thompson['Sublimation']=color_sublimation
 lumped_names_thompson['Sublimation']='Sublimation'
 
+list_lumped_names_thompson.append('Graupel Sublimation')
+list_lumped_processes_thompson.append(['E_PRG_GDE'])
+lumped_colors_thompson['Graupel Sublimation']=color_graupelsublimation
+lumped_names_thompson['Graupel Sublimation']='Graupel Sublimation'
+
+list_lumped_names_thompson.append('Ice Sublimation')
+list_lumped_processes_thompson.append(['E_PRS_SDE'])
+lumped_colors_thompson['Ice Sublimation']=color_icesublimation
+lumped_names_thompson['Ice Sublimation']='Ice Sublimation'
+
+list_lumped_names_thompson.append('Snow Sublimation')
+list_lumped_processes_thompson.append(['E_PRI_IDE'])
+lumped_colors_thompson['Snow Sublimation']=color_snowsublimation
+lumped_names_thompson['Snow Sublimation']='Snow Sublimation'
+#
+
+#list_lumped_names_thompson.append('Sublimation')
+#list_lumped_processes_thompson.append(['PRG_GDE','PRS_SDE','PRI_IDE','PRS_IDE'])
+#lumped_colors_thompson['Sublimation']=color_sublimation
+#lumped_names_thompson['Sublimation']='Sublimation'
+#
+#list_lumped_names_thompson.append('Graupel Sublimation')
+#list_lumped_processes_thompson.append(['PRG_GDE'])
+#lumped_colors_thompson['Graupel Sublimation']=color_graupelsublimation
+#lumped_names_thompson['Graupel Sublimation']='Graupel Sublimation'
+#
+#list_lumped_names_thompson.append('Ice Sublimation')
+#list_lumped_processes_thompson.append(['PRS_IDE'])
+#lumped_colors_thompson['Ice Sublimation']=color_icesublimation
+#lumped_names_thompson['Ice Sublimation']='Ice Sublimation'
+#
+#list_lumped_names_thompson.append('Snow Sublimation')
+#list_lumped_processes_thompson.append(['PRS_SDE'])
+#lumped_colors_thompson['Snow Sublimation']=color_snowsublimation
+#lumped_names_thompson['Snow Sublimation']='Snow Sublimation'
+#
+#list_lumped_names_thompson.append('Deposition')
+#list_lumped_processes_thompson.append(['E_PRI_SDE','E_PRS_SDE','E_PRG_GDE','PRI_INU','PRI_IHA'])
+#lumped_colors_thompson['Deposition']=color_deposition
+#lumped_names_thompson['Deposition']='Deposition'
+#
+#list_lumped_names_thompson.append('Graupel Deposition')
+#list_lumped_processes_thompson.append(['E_PRG_GDE'])
+#lumped_colors_thompson['Graupel Deposition']=color_graupeldeposition
+#lumped_names_thompson['Graupel Deposition']='Graupel Deposition'
+#
+#list_lumped_names_thompson.append('Ice Deposition')
+#list_lumped_processes_thompson.append(['E_PRS_SDE','PRI_INU','PRI_IHA'])
+#lumped_colors_thompson['Ice Deposition']=color_icedeposition
+#lumped_names_thompson['Ice Deposition']='Ice Deposition'
+#
+#list_lumped_names_thompson.append('Snow Deposition')
+#list_lumped_processes_thompson.append(['E_PRI_IDE'])
+#lumped_colors_thompson['Snow Deposition']=color_snowdeposition
+#lumped_names_thompson['Snow Deposition']='Snow Deposition'
+
 list_lumped_names_thompson.append('Ice processes')
-list_lumped_processes_thompson.append(['PRI_IHA','PRS_SCI','PRS_IAU','PRI_IHM','PRS_IHM','PRG_IHM'])
+list_lumped_processes_thompson.append(['PRS_SCI','PRS_IAU','PRI_IHM'])
 lumped_colors_thompson['Ice processes']=color_ice
 lumped_names_thompson['Ice processes']='Ice processes'
 
@@ -1003,11 +1180,11 @@ list_lumped_processes_RAMS=[]
 lumped_colors_RAMS={}
 
 list_lumped_names_RAMS.append('Condensation')
-list_lumped_processes_RAMS.append(['VAPLIQT'])
+list_lumped_processes_RAMS.append(['E_VAPLIQT'])
 lumped_colors_RAMS['Condensation']=color_condensation
 
 list_lumped_names_RAMS.append('Evaporation')
-list_lumped_processes_RAMS.append(['E_VAPLIQT'])
+list_lumped_processes_RAMS.append(['VAPLIQT'])
 lumped_colors_RAMS['Evaporation']=color_evaporation
 
 list_lumped_names_RAMS.append('Freezing')
@@ -1060,7 +1237,12 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',other
         list_names=[]
         list_cubes=[]
         for i,name in enumerate(list_names_in):
-            if name in ['Condensation','Evaporation','Freezing','Pure Freezing','Riming','Melting','Melting to Rain','Deposition','Sublimation','Rain formation','Autoconversion','Accretion','Ice processes']:
+            if name in ['Condensation','Evaporation',
+                        'Freezing','Pure Freezing','Droplet Freezing','Rain Freezing','Riming','Droplet Riming','Rain Riming',
+                        'Melting','Melting to Rain',
+                        'Deposition','Ice Deposition','Snow Deposition','Graupel Deposition',
+                        'Sublimation','Ice Sublimation','Snow Sublimation','Graupel Sublimation',
+                        'Rain formation','Autoconversion','Accretion','Ice processes']:
                 list_names.append(list_names_in[i])
                 list_cubes.append(list_cubes_in[i])
 
@@ -1162,19 +1344,22 @@ def lumped_latentheatingmass(lumped_processes):
 def latentheating_grouped(lumped_latentheating):
     from iris.cube import CubeList
     cubelist_out=CubeList()
-    LHRFRZ=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data
+    LHRFRZ=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing')
     LHRFRZ.rename('LHRFRZ')
-    LHREVP=lumped_latentheating.extract_strict('Condensation')+lumped_latentheating.extract_strict('Evaporation').data
+    LHREVP=lumped_latentheating.extract_strict('Condensation')+lumped_latentheating.extract_strict('Evaporation')
     LHREVP.rename('LHREVP')
-    LHRSUB=lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition').data
+    LHRSUB=lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition')
     LHRSUB.rename('LHRSUB')
     cubelist_out.extend([LHRFRZ,LHREVP,LHRSUB])
     return cubelist_out
 
 def latentheating_total(lumped_latentheating):
-    LHR=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing').data +lumped_latentheating.extract_strict('Condensation').data+lumped_latentheating.extract_strict('Evaporation').data+lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition').data
-    LHR.rename('LHR')
-    return LHR 
+    from iris.cube import CubeList
+    cubelist_out=CubeList()
+    LHR=lumped_latentheating.extract_strict('Melting')+lumped_latentheating.extract_strict('Freezing')+lumped_latentheating.extract_strict('Condensation')+lumped_latentheating.extract_strict('Evaporation')+lumped_latentheating.extract_strict('Sublimation')+lumped_latentheating.extract_strict('Deposition')
+    LHR.rename('latent_heating_rate')
+    cubelist_out.append(LHR)
+    return cubelist_out 
 
 def load_latent_heating(filename,microphysics_scheme=None,constraint=None,add_coordinates=None):
     from iris.cube import CubeList
