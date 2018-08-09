@@ -797,6 +797,12 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
                 Processes_signed_colors['PRW_IMI']='maroon'   #  Graupel->Ice
                 Processes_signed_names['PRW_IMI']='PRW_IMI'   #  Graupel->Ice
 
+    if microphysics_scheme=='RAMS':
+        
+        
+        if colors_processes=='lumped':
+            Processes_signed_colors=lumped_colors_RAMS
+            Processes_signed_names=lumped_names_RAMS
 
             
     return(Processes_signed_colors,Processes_signed_names)
@@ -1176,38 +1182,47 @@ Proclist_RAMS_mass_signed=list(Proclist_Morr_mass).extend(['E_VAPLIQT','E_VAPICE
 list_lumped_names_RAMS=[]
 list_lumped_processes_RAMS=[]
 lumped_colors_RAMS={}
+lumped_names_RAMS={}
 
 list_lumped_names_RAMS.append('Condensation')
 list_lumped_processes_RAMS.append(['E_VAPLIQT'])
 lumped_colors_RAMS['Condensation']=color_condensation
+lumped_names_RAMS['Condensation']='Condensation'
 
 list_lumped_names_RAMS.append('Evaporation')
 list_lumped_processes_RAMS.append(['VAPLIQT'])
 lumped_colors_RAMS['Evaporation']=color_evaporation
+lumped_names_RAMS['Evaporation']='Evaporation'
 
 list_lumped_names_RAMS.append('Freezing')
 list_lumped_processes_RAMS.append(['RIMECLDT','RAIN2ICET'])
 lumped_colors_RAMS['Freezing']=color_freezing
+lumped_names_RAMS['Freezing']='Freezing'
 
 list_lumped_names_RAMS.append('Melting')
 list_lumped_processes_RAMS.append(['MELTICET'])
 lumped_colors_RAMS['Melting']=color_melting
+lumped_names_RAMS['Melting']='Melting'
 
 list_lumped_names_RAMS.append('Rain formation')
 list_lumped_processes_RAMS.append(['CLD2RAINT'])
 lumped_colors_RAMS['Rain formation']=color_autoconversion
+lumped_names_RAMS['Rain formation']='Rain formation'
 
 list_lumped_names_RAMS.append('Deposition')
 list_lumped_processes_RAMS.append(['E_VAPICET'])
 lumped_colors_RAMS['Deposition']=color_deposition
+lumped_names_RAMS['Deposition']='Deposition'
 
 list_lumped_names_RAMS.append('Sublimation')
 list_lumped_processes_RAMS.append(['VAPICET'])
 lumped_colors_RAMS['Sublimation']=color_sublimation
+lumped_names_RAMS['Sublimation']='Sublimation'
 
 list_lumped_names_RAMS.append('Ice processes')
 list_lumped_processes_RAMS.append(['AGGREGATET'])
 lumped_colors_RAMS['Ice processes']=color_ice
+lumped_names_RAMS['Ice processes']='Ice processes'
 
 lumped_colors_RAMS['Other']='grey'
 
