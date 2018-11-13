@@ -1,8 +1,8 @@
 from collections import defaultdict
-from wrfcube import loadwrfcube
 import logging
 
-def split_sign_variable(filename,variable,name_neg=None,name_pos=None,add_coordinates=None,constraint=None,absolute_value=False):
+def split_sign_variable_wrf(filename,variable,name_neg=None,name_pos=None,add_coordinates=None,constraint=None,absolute_value=False):
+    from wrfcube import loadwrfcube
     if name_neg is None:
         name_neg=variable+'_neg'
     if name_pos is None:
@@ -341,7 +341,7 @@ def load_wrf_variables_signed(filename,variable_list,split_dict,add_coordinates=
         logging.debug('loading ' + str(variable))
 
         if variable in List_signed:
-            List_1=split_sign_variable(filename,variable,
+            List_1=split_sign_variable_wrf(filename,variable,
                                        name_pos=split_dict[variable][0],name_neg=split_dict[variable][1],
                                        add_coordinates=add_coordinates_load,constraint=constraint,absolute_value=absolute_value)
             if add_coordinates is not None:
@@ -493,12 +493,12 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            parallel_pool=None,
                            dt_out=None,
                            debug_nproc=None):
-    if microphysics_scheme=='RAMS':
+    if microphysics_scheme=='rams':
         if processes=='mass':
-            process_list=RAMS_processes_mass_grouped
+            process_list=rams_processes_mass_grouped
             #process_list.remove('PCCN')
             if signed==True:
-                split_dict=RAMS_processes_mass_grouped_split
+                split_dict=rams_processes_mass_grouped_split
             else:
                 split_dict={}
         # elif processes=='number':
@@ -797,12 +797,12 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
                 Processes_signed_colors['PRW_IMI']='maroon'   #  Graupel->Ice
                 Processes_signed_names['PRW_IMI']='PRW_IMI'   #  Graupel->Ice
 
-    if microphysics_scheme=='RAMS':
+    if microphysics_scheme=='rams':
         
         
         if colors_processes=='lumped':
-            Processes_signed_colors=lumped_colors_RAMS
-            Processes_signed_names=lumped_names_RAMS
+            Processes_signed_colors=lumped_colors_rams
+            Processes_signed_names=lumped_names_rams
 
             
     return(Processes_signed_colors,Processes_signed_names)
@@ -1160,7 +1160,7 @@ lumped_colors_sbmfull['Melting']=color_melting
 lumped_colors_sbmfull['Other']='grey'
 
 
-RAMS_processes_mass_grouped=[
+rams_processes_mass_grouped=[
 'VAPLIQT',
 'VAPICET',
 'MELTICET',
@@ -1171,60 +1171,60 @@ RAMS_processes_mass_grouped=[
 'AGGREGATET'	
 ]
     
-Proclist_RAMS_mass_grouped=list(morrison_processes_mass)
+Proclist_rams_mass_grouped=list(morrison_processes_mass)
 
-RAMS_processes_mass_grouped_split=defaultdict(dict)
-RAMS_processes_mass_grouped_split['VAPLIQT']=['E_VAPLIQT','VAPLIQT']
-RAMS_processes_mass_grouped_split['VAPICET']=['E_VAPICET','VAPICET']
+rams_processes_mass_grouped_split=defaultdict(dict)
+rams_processes_mass_grouped_split['VAPLIQT']=['E_VAPLIQT','VAPLIQT']
+rams_processes_mass_grouped_split['VAPICET']=['E_VAPICET','VAPICET']
 
-Proclist_RAMS_mass_signed=list(Proclist_Morr_mass).extend(['E_VAPLIQT','E_VAPICET'])
+Proclist_rams_mass_signed=list(Proclist_Morr_mass).extend(['E_VAPLIQT','E_VAPICET'])
 
-list_lumped_names_RAMS=[]
-list_lumped_processes_RAMS=[]
-lumped_colors_RAMS={}
-lumped_names_RAMS={}
+list_lumped_names_rams=[]
+list_lumped_processes_rams=[]
+lumped_colors_rams={}
+lumped_names_rams={}
 
-list_lumped_names_RAMS.append('Condensation')
-list_lumped_processes_RAMS.append(['E_VAPLIQT'])
-lumped_colors_RAMS['Condensation']=color_condensation
-lumped_names_RAMS['Condensation']='Condensation'
+list_lumped_names_rams.append('Condensation')
+list_lumped_processes_rams.append(['E_VAPLIQT'])
+lumped_colors_rams['Condensation']=color_condensation
+lumped_names_rams['Condensation']='Condensation'
 
-list_lumped_names_RAMS.append('Evaporation')
-list_lumped_processes_RAMS.append(['VAPLIQT'])
-lumped_colors_RAMS['Evaporation']=color_evaporation
-lumped_names_RAMS['Evaporation']='Evaporation'
+list_lumped_names_rams.append('Evaporation')
+list_lumped_processes_rams.append(['VAPLIQT'])
+lumped_colors_rams['Evaporation']=color_evaporation
+lumped_names_rams['Evaporation']='Evaporation'
 
-list_lumped_names_RAMS.append('Freezing')
-list_lumped_processes_RAMS.append(['RIMECLDT','RAIN2ICET'])
-lumped_colors_RAMS['Freezing']=color_freezing
-lumped_names_RAMS['Freezing']='Freezing'
+list_lumped_names_rams.append('Freezing')
+list_lumped_processes_rams.append(['RIMECLDT','RAIN2ICET'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
 
-list_lumped_names_RAMS.append('Melting')
-list_lumped_processes_RAMS.append(['MELTICET'])
-lumped_colors_RAMS['Melting']=color_melting
-lumped_names_RAMS['Melting']='Melting'
+list_lumped_names_rams.append('Melting')
+list_lumped_processes_rams.append(['MELTICET'])
+lumped_colors_rams['Melting']=color_melting
+lumped_names_rams['Melting']='Melting'
 
-list_lumped_names_RAMS.append('Rain formation')
-list_lumped_processes_RAMS.append(['CLD2RAINT'])
-lumped_colors_RAMS['Rain formation']=color_autoconversion
-lumped_names_RAMS['Rain formation']='Rain formation'
+list_lumped_names_rams.append('Rain formation')
+list_lumped_processes_rams.append(['CLD2RAINT'])
+lumped_colors_rams['Rain formation']=color_autoconversion
+lumped_names_rams['Rain formation']='Rain formation'
 
-list_lumped_names_RAMS.append('Deposition')
-list_lumped_processes_RAMS.append(['E_VAPICET'])
-lumped_colors_RAMS['Deposition']=color_deposition
-lumped_names_RAMS['Deposition']='Deposition'
+list_lumped_names_rams.append('Deposition')
+list_lumped_processes_rams.append(['E_VAPICET'])
+lumped_colors_rams['Deposition']=color_deposition
+lumped_names_rams['Deposition']='Deposition'
 
-list_lumped_names_RAMS.append('Sublimation')
-list_lumped_processes_RAMS.append(['VAPICET'])
-lumped_colors_RAMS['Sublimation']=color_sublimation
-lumped_names_RAMS['Sublimation']='Sublimation'
+list_lumped_names_rams.append('Sublimation')
+list_lumped_processes_rams.append(['VAPICET'])
+lumped_colors_rams['Sublimation']=color_sublimation
+lumped_names_rams['Sublimation']='Sublimation'
 
-list_lumped_names_RAMS.append('Ice processes')
-list_lumped_processes_RAMS.append(['AGGREGATET'])
-lumped_colors_RAMS['Ice processes']=color_ice
-lumped_names_RAMS['Ice processes']='Ice processes'
+list_lumped_names_rams.append('Ice processes')
+list_lumped_processes_rams.append(['AGGREGATET'])
+lumped_colors_rams['Ice processes']=color_ice
+lumped_names_rams['Ice processes']='Ice processes'
 
-lumped_colors_RAMS['Other']='grey'
+lumped_colors_rams['Other']='grey'
 
 
 
@@ -1288,8 +1288,8 @@ def lump_processes(processes_in,microphysics_scheme=None,lumping='basic',others=
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
     elif (microphysics_scheme=='SBM_full'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
-    elif (microphysics_scheme=='RAMS'):
-        processes_out=lump_cubelist(processes_in,list_lumped_names_RAMS, list_lumped_processes_RAMS,lumping=lumping,others=others)               
+    elif (microphysics_scheme=='rams'):
+        processes_out=lump_cubelist(processes_in,list_lumped_names_rams, list_lumped_processes_rams,lumping=lumping,others=others)               
 
     else:
         raise ValueError('microphysics must be morrison, thompson or SBM_full')
@@ -1374,10 +1374,10 @@ def latentheating_total(lumped_latentheating):
     cubelist_out.append(LHR)
     return cubelist_out 
 
-def load_latent_heating(filename,microphysics_scheme=None,constraint=None,add_coordinates=None):
+def load_latent_heating_wrf(filename,microphysics_scheme=None,constraint=None,add_coordinates=None):
     from iris.cube import CubeList
     from wrfcube.wrfcube import variable_list
-    
+    from wrfcube import loadwrfcube
     latent=CubeList()
     
     if 'LHREVP' in variable_list(filename):
@@ -1391,9 +1391,9 @@ def load_latent_heating(filename,microphysics_scheme=None,constraint=None,add_co
         latent.append(LHRFRZ)
         latent.append(LHRSUB)
         
-        latent.extend(split_sign_variable(filename,'LHREVP',name_neg='latent_heating_rate_of_evaporation',name_pos='latent_heating_rate_of_condensation',add_coordinates=None,constraint=None))
-        latent.extend(split_sign_variable(filename,'LHRFRZ',name_neg='latent_heating_rate_of_melting',name_pos='latent_heating_rate_of_freezing',add_coordinates=None,constraint=None))
-        latent.extend(split_sign_variable(filename,'LHRSUB',name_neg='latent_heating_rate_of_sublimation',name_pos='latent_heating_rate_of_deposition',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable_wrf(filename,'LHREVP',name_neg='latent_heating_rate_of_evaporation',name_pos='latent_heating_rate_of_condensation',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable_wrf(filename,'LHRFRZ',name_neg='latent_heating_rate_of_melting',name_pos='latent_heating_rate_of_freezing',add_coordinates=None,constraint=None))
+        latent.extend(split_sign_variable_wrf(filename,'LHRSUB',name_neg='latent_heating_rate_of_sublimation',name_pos='latent_heating_rate_of_deposition',add_coordinates=None,constraint=None))
 
     if microphysics_scheme in ["morrison","thompson"]:
         LHR=LHREVP+LHRFRZ+LHRSUB
