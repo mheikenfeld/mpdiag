@@ -1,4 +1,4 @@
-from .mpdiag import lump_processes,lumped_latentheating,lumped_latentheatingmass,latentheating_grouped,latentheating_total,
+from .mpdiag import lump_processes,lumped_latentheating,lumped_latentheatingmass,latentheating_grouped,latentheating_total
 from .mpdiag import calculate_wrf_mp_path,calculate_rams_mp_path
 from .mpdiag import processes_colors
 from .mpdiag import list_lumped_names_morrison,list_lumped_processes_morrison
