@@ -15,6 +15,7 @@ def split_sign_variable_wrf(filename,variable,name_neg=None,name_pos=None,add_co
 
 def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None,absolute_value=False):
     from ramscube import loadramscube
+    print(variable)
     cube=loadramscube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
     list_out=[]
     list_out.append(get_variable_neg(cube,name_neg,absolute_value=absolute_value))
@@ -91,39 +92,6 @@ thompson_processes_mass_split['PRG_GDE']=['PRG_GDE','E_PRG_GDE']
 
 
 List_Processes_Thompson_Mass_signed=list(List_Processes_Thompson_Mass).extend(['E_PRW_VCD','E_PRR_RCS','E_PRR_RCG','E_PRI_IDE','E_PRS_RCS','E_PRS_SDE','E_PRG_GDE','E_PRG_RCG'])
-
-
-#Processes_Thompson_Mass_colors={}
-#Processes_Thompson_Mass_colors['PRW_VCD']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRV_REV']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRR_WAU']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRR_RCW']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRR_RCS']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRR_RCG']='slategrey'   #  Rain->Graupel
-#Processes_Thompson_Mass_colors['PRR_GML']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRR_RCI']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_INU']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_IHM']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_WFZ']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_RFZ']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_IDE']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_RCI']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRI_IHA']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_IAU']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_SCI']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_RCS']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_SCW']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_SDE']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_IHM']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRS_IDE']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_SCW']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_RFZ']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_GDE']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_GCW']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_RCI']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_RCS']='slategrey'   #  Vapor->Water
-#Processes_Thompson_Mass_colors['PRG_RCG']='slategrey'   #  Rain->Graupel
-#Processes_Thompson_Mass_colors['PRG_IHM']='slategrey'   #  Graupel->Ice
 
 List_Processes_Thompson_Number=[
          'PNC_WCD',
@@ -252,47 +220,6 @@ morrison_processes_number=[
     'NIIM'
 ]
 
-#Morr_Processes_signed_colors=defaultdict(dict)
-#Morr_Processes_signed_colors['PRD']='lightseagreen'
-#Morr_Processes_signed_colors['PRE']='red'
-#Morr_Processes_signed_colors['PRDS']='darkorange'
-#Morr_Processes_signed_colors['PRA']='darkred'
-#Morr_Processes_signed_colors['PRC']='orange'
-#Morr_Processes_signed_colors['PCC']='magenta'
-#Morr_Processes_signed_colors['PCCN']='blue'
-#Morr_Processes_signed_colors['PSMLT']='darkblue'
-#Morr_Processes_signed_colors['EVPMS']='azure'
-#Morr_Processes_signed_colors['QMULTS']='cyan'
-#Morr_Processes_signed_colors['QMULTR']='green'
-#Morr_Processes_signed_colors['PRACS']='darkgreen'
-#Morr_Processes_signed_colors['PSACWG']='palegreen'
-#Morr_Processes_signed_colors['PGSACW']='gray'
-#Morr_Processes_signed_colors['PGRACS']='orange'
-#Morr_Processes_signed_colors['PRDG']='springgreen'
-#Morr_Processes_signed_colors['EPRDG']='coral'
-#Morr_Processes_signed_colors['EVPMG']='sage'
-#Morr_Processes_signed_colors['PGMLT']='mediumpurple'
-#Morr_Processes_signed_colors['PRACI']='lightsteelblue'
-#Morr_Processes_signed_colors['PIACRS']='darkslategrey'
-#Morr_Processes_signed_colors['PRACIS']='skyblue'
-#Morr_Processes_signed_colors['EPRD']='beige'
-#Morr_Processes_signed_colors['EPRDS']='saddlebrown'
-#Morr_Processes_signed_colors['PRACG']='violet'
-#Morr_Processes_signed_colors['QMULTG']='pink'
-#Morr_Processes_signed_colors['QMULTRG']='indigo'
-#Morr_Processes_signed_colors['MNUCCR']='lightcyan'
-#Morr_Processes_signed_colors['MNUCCC']='indigo'
-#Morr_Processes_signed_colors['MNUCCD']='indigo'
-#Morr_Processes_signed_colors['PRAI']='lime'
-#Morr_Processes_signed_colors['PRCI']='peru'
-#Morr_Processes_signed_colors['PSACWS']='maroon'
-#Morr_Processes_signed_colors['PIACR']='black'
-#Morr_Processes_signed_colors['PSACWI']='gold'
-#Morr_Processes_signed_colors['PSACR']='lightgray'
-#Morr_Processes_signed_colors['EPCC']='lightblue'
-#
-
-
 
 #Start setting things up for the SBM:
     
@@ -309,6 +236,75 @@ SBMfull_processes_number=['QVAPOR','QCLOUD']
 SBMfull_processes_mass_split=dict()
 SBMfull_processes_number_split=dict()
 
+List_Processes_RAMS_Mass=[
+         'VAPCLDT',
+         'VAPRAINT',
+         'VAPPRIST',
+         'VAPSNOWT',
+         'VAPAGGRT',
+         'VAPGRAUT',
+         'VAPHAILT',
+         'VAPDRIZT',
+         'MELTPRIST',
+         'MELTSNOWT',
+         'MELTAGGRT',
+         'MELTGRAUT',
+         'MELTHAILT',
+         'RIMECLDSNOWT',
+         'RIMECLDAGGRT',
+         'RIMECLDHAILT',
+         'RIMECLDGRAUT',
+         'RAIN2PRT',
+         'RAIN2SNT',
+         'RAIN2AGT',
+         'RAIN2GRT',
+         'RAIN2HAT',
+         'AGGRSELFPRIST',
+         'AGGRSELFSNOWT',
+         'AGGRPRISSNOWT',
+         'INUCHOMRT',
+         'INUCCONTRT',
+         'INUCIFNRT',
+         'INUCHAZRT',
+         'AGGREGATET',
+         'NUCCLDRT',
+         'CLD2RAINT'
+          ]
+
+    
+Proclist_RAMS_mass=list(List_Processes_RAMS_Mass)
+
+RAMS_processes_mass_split=defaultdict(dict)
+RAMS_processes_mass_split['VAPCLDT']=['VAPCLDT','E_VAPCLDT']
+RAMS_processes_mass_split['VAPRAINT']=['VAPRAINT','E_VAPRAINT']
+RAMS_processes_mass_split['VAPPRIST']=['VAPPRIST','E_VAPPRIST']
+RAMS_processes_mass_split['VAPSNOWT']=['VAPSNOWT','E_VAPSNOWT']
+RAMS_processes_mass_split['VAPAGGRT']=['VAPAGGRT','E_VAPAGGRT']
+RAMS_processes_mass_split['VAPGRAUT']=['VAPGRAUT','E_VAPGRAUT']
+RAMS_processes_mass_split['VAPHAILT']=['VAPHAILT','E_VAPHAILDT']
+RAMS_processes_mass_split['VAPDRIZT']=['VAPDRIZT','E_VAPDRIZT']
+
+Proclist_RAMS_mass_signed=list(Proclist_RAMS_mass).extend(['E_VAPCLDT','E_VAPRAINT','E_VAPPRIST','E_VAPSNOWT','E_VAPAGGRT','E_VAPHAILDT','E_VAPGRAUT','E_VAPDRIZT'])
+
+rams_processes_mass_grouped=[
+'VAPLIQ',
+'VAPICE',
+'MELTICE',
+'CLD2RAIN',
+'RIMECLD',
+'RAIN2ICE',
+'ICE2RAIN',
+'NUCCLDR',
+'NUCICER'
+]
+
+Proclist_rams_mass_grouped=list(morrison_processes_mass)
+
+rams_processes_mass_grouped_split=defaultdict(dict)
+rams_processes_mass_grouped_split['VAPLIQ']=['E_VAPLIQ','VAPLIQ']
+rams_processes_mass_grouped_split['VAPICE']=['E_VAPICE','VAPICE']
+
+Proclist_rams_mass_grouped_signed=list(Proclist_rams_mass_grouped).extend(['E_VAPLIQ','E_VAPICE'])
 
 
 
@@ -493,14 +489,32 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
                            parallel_pool=None,
                            dt_out=None,
                            debug_nproc=None):
+    from iris.coords import AuxCoord
     if microphysics_scheme=='rams':
-        if processes=='mass':
+        if processes=='mass_grouped':
             process_list=rams_processes_mass_grouped
             #process_list.remove('PCCN')
             if signed==True:
                 split_dict=rams_processes_mass_grouped_split
             else:
+                split_dict={}        
+            cube_list_out=load_rams_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
+
+        elif processes=='mass':
+            process_list=List_Processes_RAMS_Mass
+            #process_list.remove('PCCN')
+            if signed==True:
+                split_dict=RAMS_processes_mass_split
+            else:
                 split_dict={}
+            cube_list_out=load_rams_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
+            time_coord=cube_list_out[0].coord('time')
+            dt=(time_coord.units.num2date(time_coord.points[1])-time_coord.units.num2date(time_coord.points[0])).total_seconds()
+            dt_coord=AuxCoord(dt,units='s')
+            for i,process in enumerate(cube_list_out):
+                cube_list_out[i]=process/dt_coord
+                cube_list_out[i].rename(process.name())
+
         # elif processes=='number':
         #     process_list=morrison_processes_number
         #     if signed==True:
@@ -508,7 +522,6 @@ def calculate_rams_mp_path(filename,processes=None,microphysics_scheme=None,
         #     else:
         #         split_dict={}    
 
-        cube_list_out=load_rams_variables_signed(filename,variable_list=process_list,split_dict=split_dict,add_coordinates=add_coordinates,quantity=quantity,constraint=constraint,parallel_pool=parallel_pool,debug_nproc=debug_nproc)
  
 
     else:
@@ -953,8 +966,9 @@ lumped_colors_morrison['Ice processes']=color_ice
 lumped_names_morrison['Ice processes']='Ice processes'
 
 lumped_colors_morrison['Other']='grey'
-                
-                      
+
+
+# Thompson Microphysics:
 list_lumped_names_thompson=[]
 list_lumped_processes_thompson=[]
 lumped_colors_thompson={}
@@ -1069,53 +1083,11 @@ list_lumped_names_thompson.append('Snow Sublimation')
 list_lumped_processes_thompson.append(['E_PRI_IDE'])
 lumped_colors_thompson['Snow Sublimation']=color_snowsublimation
 lumped_names_thompson['Snow Sublimation']='Snow Sublimation'
-#
-
-#list_lumped_names_thompson.append('Sublimation')
-#list_lumped_processes_thompson.append(['PRG_GDE','PRS_SDE','PRI_IDE','PRS_IDE'])
-#lumped_colors_thompson['Sublimation']=color_sublimation
-#lumped_names_thompson['Sublimation']='Sublimation'
-#
-#list_lumped_names_thompson.append('Graupel Sublimation')
-#list_lumped_processes_thompson.append(['PRG_GDE'])
-#lumped_colors_thompson['Graupel Sublimation']=color_graupelsublimation
-#lumped_names_thompson['Graupel Sublimation']='Graupel Sublimation'
-#
-#list_lumped_names_thompson.append('Ice Sublimation')
-#list_lumped_processes_thompson.append(['PRS_IDE'])
-#lumped_colors_thompson['Ice Sublimation']=color_icesublimation
-#lumped_names_thompson['Ice Sublimation']='Ice Sublimation'
-#
-#list_lumped_names_thompson.append('Snow Sublimation')
-#list_lumped_processes_thompson.append(['PRS_SDE'])
-#lumped_colors_thompson['Snow Sublimation']=color_snowsublimation
-#lumped_names_thompson['Snow Sublimation']='Snow Sublimation'
-#
-#list_lumped_names_thompson.append('Deposition')
-#list_lumped_processes_thompson.append(['E_PRI_SDE','E_PRS_SDE','E_PRG_GDE','PRI_INU','PRI_IHA'])
-#lumped_colors_thompson['Deposition']=color_deposition
-#lumped_names_thompson['Deposition']='Deposition'
-#
-#list_lumped_names_thompson.append('Graupel Deposition')
-#list_lumped_processes_thompson.append(['E_PRG_GDE'])
-#lumped_colors_thompson['Graupel Deposition']=color_graupeldeposition
-#lumped_names_thompson['Graupel Deposition']='Graupel Deposition'
-#
-#list_lumped_names_thompson.append('Ice Deposition')
-#list_lumped_processes_thompson.append(['E_PRS_SDE','PRI_INU','PRI_IHA'])
-#lumped_colors_thompson['Ice Deposition']=color_icedeposition
-#lumped_names_thompson['Ice Deposition']='Ice Deposition'
-#
-#list_lumped_names_thompson.append('Snow Deposition')
-#list_lumped_processes_thompson.append(['E_PRI_IDE'])
-#lumped_colors_thompson['Snow Deposition']=color_snowdeposition
-#lumped_names_thompson['Snow Deposition']='Snow Deposition'
 
 list_lumped_names_thompson.append('Ice processes')
 list_lumped_processes_thompson.append(['PRS_SCI','PRS_IAU','PRI_IHM'])
 lumped_colors_thompson['Ice processes']=color_ice
 lumped_names_thompson['Ice processes']='Ice processes'
-
 
 lumped_colors_thompson['Other']='grey'
 
@@ -1130,7 +1102,7 @@ lumped_colors_sbmfull={}
 #list_lumped_names_sbmfull.append('Evaporation')
 #list_lumped_processes_sbmfull.append([])
 #lumped_colors_sbmfull['Evaporation']=color_evaporation
-#
+#`
 list_lumped_names_sbmfull.append('Freezing')
 #list_lumped_processes_sbmfull.append(['P_FRZ_ICE','P_FRZ_HAIL'])
 list_lumped_processes_sbmfull.append(['QVAPOR'])
@@ -1160,24 +1132,6 @@ lumped_colors_sbmfull['Melting']=color_melting
 lumped_colors_sbmfull['Other']='grey'
 
 
-rams_processes_mass_grouped=[
-'VAPLIQT',
-'VAPICET',
-'MELTICET',
-'CLD2RAINT',
-'RIMECLDT',
-'RAIN2ICET',
-'ICE2RAINT',
-'AGGREGATET'	
-]
-    
-Proclist_rams_mass_grouped=list(morrison_processes_mass)
-
-rams_processes_mass_grouped_split=defaultdict(dict)
-rams_processes_mass_grouped_split['VAPLIQT']=['E_VAPLIQT','VAPLIQT']
-rams_processes_mass_grouped_split['VAPICET']=['E_VAPICET','VAPICET']
-
-Proclist_rams_mass_signed=list(Proclist_Morr_mass).extend(['E_VAPLIQT','E_VAPICET'])
 
 list_lumped_names_rams=[]
 list_lumped_processes_rams=[]
@@ -1185,44 +1139,107 @@ lumped_colors_rams={}
 lumped_names_rams={}
 
 list_lumped_names_rams.append('Condensation')
-list_lumped_processes_rams.append(['E_VAPLIQT'])
+list_lumped_processes_rams.append(['E_VAPLIQ','NUCCLDR'])
 lumped_colors_rams['Condensation']=color_condensation
 lumped_names_rams['Condensation']='Condensation'
 
 list_lumped_names_rams.append('Evaporation')
-list_lumped_processes_rams.append(['VAPLIQT'])
+list_lumped_processes_rams.append(['VAPLIQ'])
 lumped_colors_rams['Evaporation']=color_evaporation
 lumped_names_rams['Evaporation']='Evaporation'
 
 list_lumped_names_rams.append('Freezing')
-list_lumped_processes_rams.append(['RIMECLDT','RAIN2ICET'])
+list_lumped_processes_rams.append(['RIMECLD','RAIN2ICE','NUCICER'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
+
+list_lumped_names_rams.append('Pure Freezing')
+list_lumped_processes_rams.append(['NUCICER'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
+
+list_lumped_names_rams.append('Droplet Freezing')
+list_lumped_processes_rams.append(['NUCICER'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
+
+list_lumped_names_rams.append('Riming')
+list_lumped_processes_rams.append(['RIMECLD','RAIN2ICE','NUCICER'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
+
+list_lumped_names_rams.append('Droplet Riming')
+list_lumped_processes_rams.append(['RIMECLD'])
+lumped_colors_rams['Freezing']=color_freezing
+lumped_names_rams['Freezing']='Freezing'
+
+list_lumped_names_rams.append('Rain Riming')
+list_lumped_processes_rams.append(['RAIN2ICE'])
 lumped_colors_rams['Freezing']=color_freezing
 lumped_names_rams['Freezing']='Freezing'
 
 list_lumped_names_rams.append('Melting')
-list_lumped_processes_rams.append(['MELTICET'])
+list_lumped_processes_rams.append(['MELTICE','ICE2RAIN'])
 lumped_colors_rams['Melting']=color_melting
 lumped_names_rams['Melting']='Melting'
 
 list_lumped_names_rams.append('Rain formation')
-list_lumped_processes_rams.append(['CLD2RAINT'])
+list_lumped_processes_rams.append(['CLD2RAIN'])
 lumped_colors_rams['Rain formation']=color_autoconversion
 lumped_names_rams['Rain formation']='Rain formation'
 
 list_lumped_names_rams.append('Deposition')
-list_lumped_processes_rams.append(['E_VAPICET'])
+list_lumped_processes_rams.append(['E_VAPICE'])
 lumped_colors_rams['Deposition']=color_deposition
 lumped_names_rams['Deposition']='Deposition'
 
 list_lumped_names_rams.append('Sublimation')
-list_lumped_processes_rams.append(['VAPICET'])
+list_lumped_processes_rams.append(['VAPICE'])
 lumped_colors_rams['Sublimation']=color_sublimation
 lumped_names_rams['Sublimation']='Sublimation'
 
-list_lumped_names_rams.append('Ice processes')
-list_lumped_processes_rams.append(['AGGREGATET'])
-lumped_colors_rams['Ice processes']=color_ice
-lumped_names_rams['Ice processes']='Ice processes'
+lumped_colors_rams['Other']='grey'
+
+
+list_lumped_names_rams_all=[]
+list_lumped_processes_rams_all=[]
+lumped_colors_rams_all={}
+lumped_names_rams_all={}
+
+list_lumped_names_rams_all.append('Condensation')
+list_lumped_processes_rams_all.append(['E_VAPLIQT','NUCCLDRT'])
+lumped_colors_rams_all['Condensation']=color_condensation
+lumped_names_rams_all['Condensation']='Condensation'
+
+list_lumped_names_rams_all.append('Evaporation')
+list_lumped_processes_rams_all.append(['VAPLIQT'])
+lumped_colors_rams_all['Evaporation']=color_evaporation
+lumped_names_rams_all['Evaporation']='Evaporation'
+
+list_lumped_names_rams_all.append('Freezing')
+list_lumped_processes_rams_all.append(['RIMECLDT','RAIN2ICET','NUCICERT'])
+lumped_colors_rams_all['Freezing']=color_freezing
+lumped_names_rams_all['Freezing']='Freezing'
+
+list_lumped_names_rams_all.append('Melting')
+list_lumped_processes_rams_all.append(['MELTICET','ICE2RAINT'])
+lumped_colors_rams_all['Melting']=color_melting
+lumped_names_rams_all['Melting']='Melting'
+
+list_lumped_names_rams_all.append('Rain formation')
+list_lumped_processes_rams_all.append(['CLD2RAINT'])
+lumped_colors_rams_all['Rain formation']=color_autoconversion
+lumped_names_rams_all['Rain formation']='Rain formation'
+
+list_lumped_names_rams_all.append('Deposition')
+list_lumped_processes_rams_all.append(['E_VAPICET'])
+lumped_colors_rams_all['Deposition']=color_deposition
+lumped_names_rams_all['Deposition']='Deposition'
+
+list_lumped_names_rams_all.append('Sublimation')
+list_lumped_processes_rams_all.append(['VAPICET'])
+lumped_colors_rams_all['Sublimation']=color_sublimation
+lumped_names_rams_all['Sublimation']='Sublimation'
 
 lumped_colors_rams['Other']='grey'
 
@@ -1234,7 +1251,7 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',other
         list_names=[]
         list_cubes=[]
         for i,name in enumerate(list_names_in):
-            if name in ['Condensation','Evaporation','Freezing','Melting','Deposition','Sublimation','Rain formation','Ice processes']:
+            if name in ['Condensation','Evaporation','Freezing','Melting','Deposition','Sublimation','Rain formation']:
                 list_names.append(list_names_in[i])
                 list_cubes.append(list_cubes_in[i])
 
