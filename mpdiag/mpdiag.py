@@ -1185,7 +1185,7 @@ lumped_names_rams['Melting']='Melting'
 
 list_lumped_names_rams.append('Rain formation')
 list_lumped_processes_rams.append(['CLD2RAIN'])
-lumped_colors_rams['Rain formation']=color_autoconversion
+lumped_colors_rams['Rain formation']=color_warmrain
 lumped_names_rams['Rain formation']='Rain formation'
 
 list_lumped_names_rams.append('Deposition')
