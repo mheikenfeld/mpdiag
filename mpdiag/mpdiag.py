@@ -1309,7 +1309,7 @@ def lump_processes(processes_in,microphysics_scheme=None,lumping='basic',others=
         processes_out=lump_cubelist(processes_in,list_lumped_names_rams, list_lumped_processes_rams,lumping=lumping,others=others)               
 
     else:
-        raise ValueError('microphysics must be morrison, thompson or SBM_full')
+        raise ValueError('microphysics must be morrison, thompson, SBM_full or rams')
     return processes_out
 
 
