@@ -680,7 +680,7 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
                 Processes_signed_names['QIIM']='QIIM'
 
 
-    if microphysics_scheme=='thompson':
+    elif microphysics_scheme=='thompson':
         
         
         if colors_processes=='lumped':
@@ -809,14 +809,13 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
                 Processes_signed_colors['PRW_IMI']='maroon'   #  Graupel->Ice
                 Processes_signed_names['PRW_IMI']='PRW_IMI'   #  Graupel->Ice
 
-    if microphysics_scheme=='rams':
-        
-        
+    elif microphysics_scheme=='rams':
         if colors_processes=='lumped':
             Processes_signed_colors=lumped_colors_rams
             Processes_signed_names=lumped_names_rams
 
-            
+    else:
+        raise ValueError(f'unknown microphysics_scheme {microphysics_scheme}, must be morrison, thompson or rams')
     return(Processes_signed_colors,Processes_signed_names)
 
 color_condensation=   '#4b86c2'   #  bright blue
@@ -1635,4 +1634,7 @@ def hydrometeors_colors(microphysics_scheme=None):
     elif microphysics_scheme=='rams':
             Hydrometeros_colors=colors_hydrometeors_rams
             Hydrometeors_names=names_hydrometeors_rams
+            
+    else:
+        raise ValueError(f'Unknown microphysics_scheme {microphysics_scheme}, must be morrison, thompson, sbmfast, sbmfull or rams')
     return Hydrometeros_colors,Hydrometeors_names
