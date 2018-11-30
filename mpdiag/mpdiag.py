@@ -15,7 +15,6 @@ def split_sign_variable_wrf(filename,variable,name_neg=None,name_pos=None,add_co
 
 def split_sign_variable_rams(filename,variable,name_neg,name_pos,add_coordinates=None,constraint=None,absolute_value=False):
     from ramscube import loadramscube
-    print(variable)
     cube=loadramscube(filename,variable,add_coordinates=add_coordinates,constraint=constraint)
     list_out=[]
     list_out.append(get_variable_neg(cube,name_neg,absolute_value=absolute_value))
@@ -1421,5 +1420,219 @@ def load_latent_heating_wrf(filename,microphysics_scheme=None,constraint=None,ad
         LHR=loadwrfcube(filename,'LHRTOT',constraint=constraint,add_coordinates=add_coordinates)
         LHR.rename('latent_heating_rate')
         latent.append(LHR)
-
+        
     return latent
+
+# From Supercell paper:
+        # Hydrometeors_names = ['QCLOUD', 'QRAIN', 'QICE', 'QSNOW', 'QGRAUP']
+        
+        # Hydrometeors_names_legend['QCLOUD'] ='Cloud droplets'
+        # Hydrometeors_names_legend['QRAIN'] = 'Rain drops'
+        # Hydrometeors_names_legend['QICE'] = 'Ice particles'
+        # Hydrometeors_names_legend['QSNOW'] =  'Snow'
+        # Hydrometeors_names_legend['QGRAUP'] = 'Graupel & Hail'
+
+        # Hydrometeors_colors['QCLOUD'] = 'firebrick'
+        # Hydrometeors_colors['QRAIN'] = 'dodgerblue'
+        # Hydrometeors_colors['QICE'] = 'grey'
+        # Hydrometeors_colors['QSNOW'] = 'orange'
+        # Hydrometeors_colors['QGRAUP'] = 'mediumturquoise'
+
+# hydrometeors:
+    
+color_cloud='firebrick'
+color_rain='dodgerblue'
+color_drizzle='rebeccapurple'
+color_ice='grey'
+color_ice1='salmon'
+color_ice2='darkseagreen'
+color_snow='orange'
+color_hail='cyan'
+color_graupel='mediumturquoise'
+color_aggregate='green'
+
+# WRF Morrison:
+list_hydrometeor_variables_morrison=[]
+colors_hydrometeors_morrison={}
+names_hydrometeors_morrison={}
+
+list_hydrometeor_variables_morrison.append('QCLOUD')
+colors_hydrometeors_morrison['QCLOUD']=color_cloud
+names_hydrometeors_morrison['QCLOUD']='Cloud droplets'
+
+list_hydrometeor_variables_morrison.append('QRAIN')
+colors_hydrometeors_morrison['QRAIN']=color_rain
+names_hydrometeors_morrison['QRAIN']='Rain drops'
+
+list_hydrometeor_variables_morrison.append('QICE')
+colors_hydrometeors_morrison['QICE']=color_ice
+names_hydrometeors_morrison['QICE']='Cloud ice'
+
+list_hydrometeor_variables_morrison.append('QSNOW')
+colors_hydrometeors_morrison['QSNOW']=color_snow
+names_hydrometeors_morrison['QSNOW']='Snow'
+
+list_hydrometeor_variables_morrison.append('QGRAUP')
+colors_hydrometeors_morrison['QGRAUP']=color_graupel
+names_hydrometeors_morrison['QGRAUP']='Graupel/Hail'
+
+# WRF Thompson:
+list_hydrometeor_variables_thompson=[]
+colors_hydrometeors_thompson={}
+names_hydrometeors_thompson={}
+
+list_hydrometeor_variables_thompson.append('QCLOUD')
+colors_hydrometeors_thompson['QCLOUD']=color_cloud
+names_hydrometeors_thompson['QCLOUD']='Cloud droplets'
+
+list_hydrometeor_variables_thompson.append('QRAIN')
+colors_hydrometeors_thompson['QRAIN']=color_rain
+names_hydrometeors_thompson['QRAIN']='Rain drops'
+
+list_hydrometeor_variables_thompson.append('QICE')
+colors_hydrometeors_thompson['QICE']=color_ice
+names_hydrometeors_thompson['QICE']='Cloud ice'
+
+list_hydrometeor_variables_thompson.append('QSNOW')
+colors_hydrometeors_thompson['QSNOW']=color_snow
+names_hydrometeors_thompson['QSNOW']='Snow'
+
+list_hydrometeor_variables_thompson.append('QGRAUP')
+colors_hydrometeors_thompson['QGRAUP']=color_graupel
+names_hydrometeors_thompson['QGRAUP']='Graupel'
+
+# WRF SBM Full:
+list_hydrometeor_variables_sbmfull=[]
+colors_hydrometeors_sbmfull={}
+names_hydrometeors_sbmfull={}
+
+list_hydrometeor_variables_sbmfull.append('QCLOUD')
+colors_hydrometeors_sbmfull['QCLOUD']=color_cloud
+names_hydrometeors_sbmfull['QCLOUD']='Cloud droplets'
+
+list_hydrometeor_variables_sbmfull.append('QRAIN')
+colors_hydrometeors_sbmfull['QRAIN']=color_rain
+names_hydrometeors_sbmfull['QRAIN']='Rain drops'
+
+list_hydrometeor_variables_sbmfull.append('QICEC')
+colors_hydrometeors_sbmfull['QICEC']=color_ice
+names_hydrometeors_sbmfull['QICEC']='Ice columns'
+
+list_hydrometeor_variables_sbmfull.append('QICED')
+colors_hydrometeors_sbmfull['QICED']=color_ice1
+names_hydrometeors_sbmfull['QICED']='Cloud dentrites'
+
+list_hydrometeor_variables_sbmfull.append('QICEP')
+colors_hydrometeors_sbmfull['QICEP']=color_ice2
+names_hydrometeors_sbmfull['QICEP']='Cloud plates'
+
+list_hydrometeor_variables_sbmfull.append('QSNOW')
+colors_hydrometeors_sbmfull['QSNOW']=color_snow
+names_hydrometeors_sbmfull['QSNOW']='Snow'
+
+list_hydrometeor_variables_sbmfull.append('QGRAUP')
+colors_hydrometeors_sbmfull['QGRAUP']=color_graupel
+names_hydrometeors_sbmfull['QGRAUP']='Graupel'
+
+list_hydrometeor_variables_sbmfull.append('QHAIL')
+colors_hydrometeors_sbmfull['QHAIL']=color_hail
+names_hydrometeors_sbmfull['QHAIL']='Hail'
+
+# WRF SBM Fast:
+list_hydrometeor_variables_sbmfast=[]
+colors_hydrometeors_sbmfast={}
+names_hydrometeors_sbmfast={}
+
+list_hydrometeor_variables_sbmfast.append('QCLOUD')
+colors_hydrometeors_sbmfast['QCLOUD']=color_cloud
+names_hydrometeors_sbmfast['QCLOUD']='Cloud droplets'
+
+list_hydrometeor_variables_sbmfast.append('QRAIN')
+colors_hydrometeors_sbmfast['QRAIN']=color_rain
+names_hydrometeors_sbmfast['QRAIN']='Rain drops'
+
+list_hydrometeor_variables_sbmfast.append('QICEC')
+colors_hydrometeors_sbmfast['QICEC']=color_ice
+names_hydrometeors_sbmfast['QICEC']='Ice columns'
+
+list_hydrometeor_variables_sbmfast.append('QICED')
+colors_hydrometeors_sbmfast['QICED']=color_ice1
+names_hydrometeors_sbmfast['QICED']='Cloud dentrites'
+
+list_hydrometeor_variables_sbmfast.append('QICEP')
+colors_hydrometeors_sbmfast['QICEP']=color_ice2
+names_hydrometeors_sbmfast['QICEP']='Cloud plates'
+
+list_hydrometeor_variables_sbmfast.append('QSNOW')
+colors_hydrometeors_sbmfast['QSNOW']=color_snow
+names_hydrometeors_sbmfast['QSNOW']='Snow'
+
+list_hydrometeor_variables_sbmfast.append('QGRAUP')
+colors_hydrometeors_sbmfast['QGRAUP']=color_graupel
+names_hydrometeors_sbmfast['QGRAUP']='Graupel'
+
+list_hydrometeor_variables_sbmfast.append('QHAIL')
+colors_hydrometeors_sbmfast['QHAIL']=color_hail
+names_hydrometeors_sbmfast['QHAIL']='Hail'
+
+#RAMS:
+list_hydrometeor_variables_rams=[]
+colors_hydrometeors_rams={}
+names_hydrometeors_rams={}
+
+list_hydrometeor_variables_rams.append('RCP')
+colors_hydrometeors_rams['RCP']=color_cloud
+names_hydrometeors_rams['RCP']='Cloud droplets'
+
+list_hydrometeor_variables_rams.append('RDP')
+colors_hydrometeors_rams['RDP']=color_drizzle
+names_hydrometeors_rams['RDP']='Drizzle drops'
+
+list_hydrometeor_variables_rams.append('RRP')
+colors_hydrometeors_rams['RRP']=color_rain
+names_hydrometeors_rams['RRP']='Rain drops'
+
+list_hydrometeor_variables_rams.append('RPP')
+colors_hydrometeors_rams['RPP']=color_ice
+names_hydrometeors_rams['RPP']='Pristine ice'
+
+list_hydrometeor_variables_rams.append('RSP')
+colors_hydrometeors_rams['RSP']=color_snow
+names_hydrometeors_rams['RSP']='Snow'
+
+list_hydrometeor_variables_rams.append('RAP')
+colors_hydrometeors_rams['RAP']=color_ice1
+names_hydrometeors_rams['RAP']='Aggregates'
+
+list_hydrometeor_variables_rams.append('RGP')
+colors_hydrometeors_rams['RGP']=color_graupel
+names_hydrometeors_rams['RGP']='Graupel'
+
+list_hydrometeor_variables_rams.append('RHP')
+colors_hydrometeors_rams['RHP']=color_hail
+names_hydrometeors_rams['RHP']='Hail'
+
+def hydrometeors_colors(microphysics_scheme=None):
+    Hydrometeros_colors={}
+    Hydrometeors_names={}
+
+    if microphysics_scheme=='morrison':
+            Hydrometeros_colors=colors_hydrometeors_morrison
+            Hydrometeors_names=names_hydrometeors_morrison
+
+    elif microphysics_scheme=='thompson':
+            Hydrometeros_colors=colors_hydrometeors_thompson
+            Hydrometeors_names=names_hydrometeors_thompson
+
+    elif microphysics_scheme=='sbmfast':
+            Hydrometeros_colors=colors_hydrometeors_sbmfast
+            Hydrometeors_names=names_hydrometeors_sbmfast
+
+    elif microphysics_scheme=='sbmfull':
+            Hydrometeros_colors=colors_hydrometeors_sbmfull
+            Hydrometeors_names=names_hydrometeors_sbmfull
+
+    elif microphysics_scheme=='rams':
+            Hydrometeros_colors=colors_hydrometeors_rams
+            Hydrometeors_names=names_hydrometeors_rams
+    return Hydrometeros_colors,Hydrometeors_names

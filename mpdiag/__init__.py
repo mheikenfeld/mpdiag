@@ -6,3 +6,4 @@ from .mpdiag import list_lumped_names_thompson, list_lumped_processes_thompson
 from .mpdiag import list_lumped_names_sbmfull, list_lumped_processes_sbmfull
 from .mpdiag import list_lumped_names_rams, list_lumped_processes_rams
 from .mpdiag import load_latent_heating_wrf
+from .mpdiag import hydrometeors_colors
