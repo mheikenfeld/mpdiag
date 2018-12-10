@@ -539,8 +539,108 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
             Processes_signed_colors=lumped_colors_morrison
             Processes_signed_names=lumped_names_morrison
 
-        else:
-         
+        if colors_processes=='all':
+            Processes_signed_colors['PRC']='brown'       
+            Processes_signed_names['PRC']='PRC'         
+
+            Processes_signed_colors['PRD']='lightseagreen'
+            Processes_signed_names['PRD']='PRD'
+
+            Processes_signed_colors['PCCN']='blue'
+            Processes_signed_names['PCCN']='PCCN'
+
+            Processes_signed_colors['PSMLT']='darkblue'
+            Processes_signed_names['PSMLT']='PSMLT'
+
+            Processes_signed_colors['EVPMS']='azure'
+            Processes_signed_names['EVPMS']='EVPMS'
+
+            Processes_signed_colors['QMULTS']='cyan'
+            Processes_signed_names['QMULTS']='QMULTS'
+
+            Processes_signed_colors['QMULTR']='green'
+            Processes_signed_names['QMULTR']='QMULTR'
+
+            Processes_signed_colors['PRACS']='darkgreen'
+            Processes_signed_names['PRACS']='PRACS'
+
+            Processes_signed_colors['PGSACW']='gray'
+            Processes_signed_names['PGSACW']='PGSACW'
+
+            Processes_signed_colors['PRDG']='springgreen'
+            Processes_signed_names['PRDG']='PRDG'
+
+            Processes_signed_colors['EPRDG']='coral'
+            Processes_signed_names['EPRDG']='EPRDG'
+
+            Processes_signed_colors['EVPMG']='mediumseagreen'
+            Processes_signed_names['EVPMG']='EVPMG'
+
+            Processes_signed_colors['PGMLT']='mediumpurple'
+            Processes_signed_names['PGMLT']='PGMLT'
+
+            Processes_signed_colors['PRACI']='lightsteelblue'
+            Processes_signed_names['PRACI']='PRACI'
+
+            Processes_signed_colors['PIACRS']='darkslategrey'
+            Processes_signed_names['PIACRS']='PIACRS'
+
+            Processes_signed_colors['PRACIS']='skyblue'
+            Processes_signed_names['PRACIS']='PRACIS'
+
+            Processes_signed_colors['EPRD']='beige'
+            Processes_signed_names['EPRD']='EPRD'
+
+            Processes_signed_colors['PRACG']='violet'
+            Processes_signed_names['PRACG']='PRACG'
+
+            Processes_signed_colors['QMULTG']='pink'
+            Processes_signed_names['QMULTG']='QMULTG'
+
+            Processes_signed_colors['QMULTRG']='indigo'
+            Processes_signed_names['QMULTRG']='QMULTRG'
+
+            Processes_signed_colors['MNUCCR']='lightcyan'
+            Processes_signed_names['MNUCCR']='MNUCCR'
+
+            Processes_signed_colors['MNUCCC']='indigo'
+            Processes_signed_names['MNUCCC']='MNUCCC'
+
+            Processes_signed_colors['MNUCCD']='indigo'
+            Processes_signed_names['MNUCCD']='MNUCCD'
+
+            Processes_signed_colors['PRAI']='lime'
+            Processes_signed_names['PRAI']='PRAI'
+
+            Processes_signed_colors['PRCI']='peru'
+            Processes_signed_names['PRCI']='PRCI'
+
+            Processes_signed_colors['PSACWS']='maroon'
+            Processes_signed_names['PSACWS']='PSACWS'
+
+            Processes_signed_colors['PIACR']='black'
+            Processes_signed_names['PIACR']='PIACR'
+
+            Processes_signed_colors['PSACWI']='gold'
+            Processes_signed_names['PSACWI']='PSACWI'
+
+            Processes_signed_colors['PSACR']='lightgray'
+            Processes_signed_names['PSACR']='PSACR'
+                
+            Processes_signed_colors['QICF']='#99d8c9'
+            Processes_signed_names['QICF']='QICF'
+
+            Processes_signed_colors['QGRF']='#756bb1'
+            Processes_signed_names['QGRF']='QGRF'
+
+            Processes_signed_colors['QNIRF']='#bcbddc'
+            Processes_signed_names['QNIRF']='QNIRF'
+            
+            Processes_signed_colors['QIIM']='#d95f0e'
+            Processes_signed_names['QIIM']='QIIM'
+
+            # names that are properly set...
+
             Processes_signed_colors['PCC']='lightblue'        
             Processes_signed_names['PCC']='Cond. droplets (PCC)'
     
@@ -577,107 +677,7 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
             Processes_signed_colors['PSACWG']='palegreen'
             Processes_signed_names['PSACWG']='Coll. droplets/graupel (PSACWG)'#'Coll. droplets/graupel'
     
-    
-    
-            if colors_processes=='all':
-                Processes_signed_colors['PRC']='brown'       
-                Processes_signed_names['PRC']='PRC'         
-    
-                Processes_signed_colors['PRD']='lightseagreen'
-                Processes_signed_names['PRD']='PRD'
-    
-                Processes_signed_colors['PCCN']='blue'
-                Processes_signed_names['PCCN']='PCCN'
-    
-                Processes_signed_colors['PSMLT']='darkblue'
-                Processes_signed_names['PSMLT']='PSMLT'
-    
-                Processes_signed_colors['EVPMS']='azure'
-                Processes_signed_names['EVPMS']='EVPMS'
-    
-                Processes_signed_colors['QMULTS']='cyan'
-                Processes_signed_names['QMULTS']='QMULTS'
-    
-                Processes_signed_colors['QMULTR']='green'
-                Processes_signed_names['QMULTR']='QMULTR'
-    
-                Processes_signed_colors['PRACS']='darkgreen'
-                Processes_signed_names['PRACS']='PRACS'
-    
-                Processes_signed_colors['PGSACW']='gray'
-                Processes_signed_names['PGSACW']='PGSACW'
-    
-                Processes_signed_colors['PRDG']='springgreen'
-                Processes_signed_names['PRDG']='PRDG'
-    
-                Processes_signed_colors['EPRDG']='coral'
-                Processes_signed_names['EPRDG']='EPRDG'
-    
-                Processes_signed_colors['EVPMG']='mediumseagreen'
-                Processes_signed_names['EVPMG']='EVPMG'
-    
-                Processes_signed_colors['PGMLT']='mediumpurple'
-                Processes_signed_names['PGMLT']='PGMLT'
-    
-                Processes_signed_colors['PRACI']='lightsteelblue'
-                Processes_signed_names['PRACI']='PRACI'
-    
-                Processes_signed_colors['PIACRS']='darkslategrey'
-                Processes_signed_names['PIACRS']='PIACRS'
-    
-                Processes_signed_colors['PRACIS']='skyblue'
-                Processes_signed_names['PRACIS']='PRACIS'
-    
-                Processes_signed_colors['EPRD']='beige'
-                Processes_signed_names['EPRD']='EPRD'
-    
-                Processes_signed_colors['PRACG']='violet'
-                Processes_signed_names['PRACG']='PRACG'
-    
-                Processes_signed_colors['QMULTG']='pink'
-                Processes_signed_names['QMULTG']='QMULTG'
-    
-                Processes_signed_colors['QMULTRG']='indigo'
-                Processes_signed_names['QMULTRG']='QMULTRG'
-    
-                Processes_signed_colors['MNUCCR']='lightcyan'
-                Processes_signed_names['MNUCCR']='MNUCCR'
-    
-                Processes_signed_colors['MNUCCC']='indigo'
-                Processes_signed_names['MNUCCC']='MNUCCC'
-    
-                Processes_signed_colors['MNUCCD']='indigo'
-                Processes_signed_names['MNUCCD']='MNUCCD'
-    
-                Processes_signed_colors['PRAI']='lime'
-                Processes_signed_names['PRAI']='PRAI'
-    
-                Processes_signed_colors['PRCI']='peru'
-                Processes_signed_names['PRCI']='PRCI'
-    
-                Processes_signed_colors['PSACWS']='maroon'
-                Processes_signed_names['PSACWS']='PSACWS'
-    
-                Processes_signed_colors['PIACR']='black'
-                Processes_signed_names['PIACR']='PIACR'
-    
-                Processes_signed_colors['PSACWI']='gold'
-                Processes_signed_names['PSACWI']='PSACWI'
-    
-                Processes_signed_colors['PSACR']='lightgray'
-                Processes_signed_names['PSACR']='PSACR'
-                    
-                Processes_signed_colors['QICF']='#99d8c9'
-                Processes_signed_names['QICF']='QICF'
 
-                Processes_signed_colors['QGRF']='#756bb1'
-                Processes_signed_names['QGRF']='QGRF'
-
-                Processes_signed_colors['QNIRF']='#bcbddc'
-                Processes_signed_names['QNIRF']='QNIRF'
-                
-                Processes_signed_colors['QIIM']='#d95f0e'
-                Processes_signed_names['QIIM']='QIIM'
 
 
     elif microphysics_scheme=='thompson':
@@ -687,8 +687,86 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
             Processes_signed_colors=lumped_colors_thompson
             Processes_signed_names=lumped_names_thompson
 
-        else:
+        if colors_processes=='all':        
+            Processes_signed_colors['PRR_RCI']='magenta'   #  Vapor->Water
+            Processes_signed_names['PRR_RCI']='PRR_RCI'   #  Vapor->Water
+
+            Processes_signed_colors['PRR_WAU']='salmon'   #  Vapor->Water
+            Processes_signed_names['PRR_WAU']='PRR_WAU'   #  Vapor->Water
+
+            Processes_signed_colors['PRR_RCS']='cyan'   #  Vapor->Water
+            Processes_signed_names['PRR_RCS']='PRR_RCS'   #  Vapor->Water
+
+            Processes_signed_colors['PRR_RCG']='khaki'   #  Rain->Graupel
+            Processes_signed_names['PRR_RCG']='PRR_RCG'   #  Rain->Graupel
+
+            Processes_signed_colors['PRI_IHM']='darkorange'   #  Vapor->Water
+            Processes_signed_names['PRI_IHM']='PRI_IHM'   #  Vapor->Water
+
+            Processes_signed_colors['PRI_RFZ']='orange'   #  Vapor->Water
+            Processes_signed_names['PRI_RFZ']='PRI_RFZ'   #  Vapor->Water
+
+            Processes_signed_colors['PRI_RCI']='darkblue'   #  Vapor->Water
+            Processes_signed_names['PRI_RCI']='PRI_RCI'   #  Vapor->Water
+
+            Processes_signed_colors['PRI_IHA']='azure'   #  Vapor->Water
+            Processes_signed_names['PRI_IHA']='PRI_IHA'   #  Vapor->Water
+
+            Processes_signed_colors['PRS_SCI']='coral'   #  Vapor->Water
+            Processes_signed_names['PRS_SCI']='PRS_SCI'   #  Vapor->Water
+
+            Processes_signed_colors['PRS_RCS']='mediumseagreen'   #  Vapor->Water
+            Processes_signed_names['PRS_RCS']='PRS_RCS'   #  Vapor->Water
+
+            Processes_signed_colors['PRS_SCW']='mediumpurple'   #  Vapor->Water
+            Processes_signed_names['PRS_SCW']='PRS_SCW'   #  Vapor->Water
+
+            Processes_signed_colors['PRS_IHM']='skyblue'   #  Vapor->Water
+            Processes_signed_names['PRS_IHM']='PRS_IHM'   #  Vapor->Water
+
+            Processes_signed_colors['PRS_IDE']='beige'   #  Vapor->Water
+            Processes_signed_names['PRS_IDE']='PRS_IDE'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_SCW']='violet'   #  Vapor->Water
+            Processes_signed_names['PRG_SCW']='PRG_SCW'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_RFZ']='pink'   #  Vapor->Water
+            Processes_signed_names['PRG_RFZ']='PRG_RFZ'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_GCW']='lightcyan'   #  Vapor->Water
+            Processes_signed_names['PRG_GCW']='PRG_GCW'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_RCI']='lime'   #  Vapor->Water
+            Processes_signed_names['PRG_RCI']='PRG_RCI'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_RCS']='peru'   #  Vapor->Water
+            Processes_signed_names['PRG_RCS']='PRG_RCS'   #  Vapor->Water
+
+            Processes_signed_colors['PRG_IHM']='violet'   #  Graupel->Ice
+            Processes_signed_names['PRG_IHM']='PRG_IHM'   #  Graupel->Ice
+
+            Processes_signed_colors['E_PRR_RCS']='pink'   #  Graupel->Ice
+            Processes_signed_names['E_PRR_RCS']='E_PRR_RCS'   #  Graupel->Ice
+
+            Processes_signed_colors['E_PRR_RCG']='yellow'   #  Graupel->Ice
+            Processes_signed_names['E_PRR_RCG']='E_PRR_RCG'   #  Graupel->Ice
+
+            Processes_signed_colors['E_PRI_IDE']='red'   #  Graupel->Ice
+            Processes_signed_names['E_PRI_IDE']='E_PRI_IDE'   #  Graupel->Ice
+
+            Processes_signed_colors['E_PRS_RCS']='green'   #  Graupel->Ice
+            Processes_signed_names['E_PRS_RCS']='E_PRS_RCS'   #  Graupel->Ice
+
+            Processes_signed_colors['E_PRG_GDE']='gold'   #  Graupel->Ice
+            Processes_signed_names['E_PRG_GDE']='E_PRG_GDE'   #  Graupel->Ice
+
+            Processes_signed_colors['PRI_WFI']='maroon'   #  Graupel->Ice
+            Processes_signed_names['PRI_WFI']='PRI_WFI'   #  Graupel->Ice
             
+            Processes_signed_colors['PRW_IMI']='maroon'   #  Graupel->Ice
+            Processes_signed_names['PRW_IMI']='PRW_IMI'   #  Graupel->Ice
+            
+            # names that are properly set:
             Processes_signed_colors['PRI_INU']='lightseagreen'   
             Processes_signed_names['PRI_INU']='Ice nucleation (PRI_INU)'   
     
@@ -727,87 +805,7 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
     
             Processes_signed_colors['E_PRW_VCD']='coral'   #  Vapor->Water
             Processes_signed_names['E_PRW_VCD']='Evaporation (E_PRW_VCD)'
-    
-    
-           
-            if colors_processes=='all':        
-                Processes_signed_colors['PRR_RCI']='magenta'   #  Vapor->Water
-                Processes_signed_names['PRR_RCI']='PRR_RCI'   #  Vapor->Water
-    
-                Processes_signed_colors['PRR_WAU']='salmon'   #  Vapor->Water
-                Processes_signed_names['PRR_WAU']='PRR_WAU'   #  Vapor->Water
-    
-                Processes_signed_colors['PRR_RCS']='cyan'   #  Vapor->Water
-                Processes_signed_names['PRR_RCS']='PRR_RCS'   #  Vapor->Water
-    
-                Processes_signed_colors['PRR_RCG']='khaki'   #  Rain->Graupel
-                Processes_signed_names['PRR_RCG']='PRR_RCG'   #  Rain->Graupel
-    
-                Processes_signed_colors['PRI_IHM']='darkorange'   #  Vapor->Water
-                Processes_signed_names['PRI_IHM']='PRI_IHM'   #  Vapor->Water
-    
-                Processes_signed_colors['PRI_RFZ']='orange'   #  Vapor->Water
-                Processes_signed_names['PRI_RFZ']='PRI_RFZ'   #  Vapor->Water
-    
-                Processes_signed_colors['PRI_RCI']='darkblue'   #  Vapor->Water
-                Processes_signed_names['PRI_RCI']='PRI_RCI'   #  Vapor->Water
-    
-                Processes_signed_colors['PRI_IHA']='azure'   #  Vapor->Water
-                Processes_signed_names['PRI_IHA']='PRI_IHA'   #  Vapor->Water
-    
-                Processes_signed_colors['PRS_SCI']='coral'   #  Vapor->Water
-                Processes_signed_names['PRS_SCI']='PRS_SCI'   #  Vapor->Water
-    
-                Processes_signed_colors['PRS_RCS']='mediumseagreen'   #  Vapor->Water
-                Processes_signed_names['PRS_RCS']='PRS_RCS'   #  Vapor->Water
-    
-                Processes_signed_colors['PRS_SCW']='mediumpurple'   #  Vapor->Water
-                Processes_signed_names['PRS_SCW']='PRS_SCW'   #  Vapor->Water
-    
-                Processes_signed_colors['PRS_IHM']='skyblue'   #  Vapor->Water
-                Processes_signed_names['PRS_IHM']='PRS_IHM'   #  Vapor->Water
-    
-                Processes_signed_colors['PRS_IDE']='beige'   #  Vapor->Water
-                Processes_signed_names['PRS_IDE']='PRS_IDE'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_SCW']='violet'   #  Vapor->Water
-                Processes_signed_names['PRG_SCW']='PRG_SCW'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_RFZ']='pink'   #  Vapor->Water
-                Processes_signed_names['PRG_RFZ']='PRG_RFZ'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_GCW']='lightcyan'   #  Vapor->Water
-                Processes_signed_names['PRG_GCW']='PRG_GCW'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_RCI']='lime'   #  Vapor->Water
-                Processes_signed_names['PRG_RCI']='PRG_RCI'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_RCS']='peru'   #  Vapor->Water
-                Processes_signed_names['PRG_RCS']='PRG_RCS'   #  Vapor->Water
-    
-                Processes_signed_colors['PRG_IHM']='violet'   #  Graupel->Ice
-                Processes_signed_names['PRG_IHM']='PRG_IHM'   #  Graupel->Ice
-    
-                Processes_signed_colors['E_PRR_RCS']='pink'   #  Graupel->Ice
-                Processes_signed_names['E_PRR_RCS']='E_PRR_RCS'   #  Graupel->Ice
-    
-                Processes_signed_colors['E_PRR_RCG']='yellow'   #  Graupel->Ice
-                Processes_signed_names['E_PRR_RCG']='E_PRR_RCG'   #  Graupel->Ice
-    
-                Processes_signed_colors['E_PRI_IDE']='red'   #  Graupel->Ice
-                Processes_signed_names['E_PRI_IDE']='E_PRI_IDE'   #  Graupel->Ice
-    
-                Processes_signed_colors['E_PRS_RCS']='green'   #  Graupel->Ice
-                Processes_signed_names['E_PRS_RCS']='E_PRS_RCS'   #  Graupel->Ice
-    
-                Processes_signed_colors['E_PRG_GDE']='gold'   #  Graupel->Ice
-                Processes_signed_names['E_PRG_GDE']='E_PRG_GDE'   #  Graupel->Ice
-    
-                Processes_signed_colors['PRI_WFI']='maroon'   #  Graupel->Ice
-                Processes_signed_names['PRI_WFI']='PRI_WFI'   #  Graupel->Ice
-                
-                Processes_signed_colors['PRW_IMI']='maroon'   #  Graupel->Ice
-                Processes_signed_names['PRW_IMI']='PRW_IMI'   #  Graupel->Ice
+
 
     elif microphysics_scheme=='rams':
         if colors_processes=='lumped':
@@ -815,7 +813,7 @@ def processes_colors(microphysics_scheme=None,colors_processes='all'):
             Processes_signed_names=lumped_names_rams
 
     else:
-        raise ValueError(f'unknown microphysics_scheme {microphysics_scheme}, must be morrison, thompson or rams')
+        raise ValueError('unknown microphysics_scheme '+str(microphysics_scheme)+ ', must be morrison, thompson or rams')
     return(Processes_signed_colors,Processes_signed_names)
 
 color_condensation=   '#4b86c2'   #  bright blue
@@ -1422,21 +1420,6 @@ def load_latent_heating_wrf(filename,microphysics_scheme=None,constraint=None,ad
         
     return latent
 
-# From Supercell paper:
-        # Hydrometeors_names = ['QCLOUD', 'QRAIN', 'QICE', 'QSNOW', 'QGRAUP']
-        
-        # Hydrometeors_names_legend['QCLOUD'] ='Cloud droplets'
-        # Hydrometeors_names_legend['QRAIN'] = 'Rain drops'
-        # Hydrometeors_names_legend['QICE'] = 'Ice particles'
-        # Hydrometeors_names_legend['QSNOW'] =  'Snow'
-        # Hydrometeors_names_legend['QGRAUP'] = 'Graupel & Hail'
-
-        # Hydrometeors_colors['QCLOUD'] = 'firebrick'
-        # Hydrometeors_colors['QRAIN'] = 'dodgerblue'
-        # Hydrometeors_colors['QICE'] = 'grey'
-        # Hydrometeors_colors['QSNOW'] = 'orange'
-        # Hydrometeors_colors['QGRAUP'] = 'mediumturquoise'
-
 # hydrometeors:
     
 color_cloud='firebrick'
@@ -1636,5 +1619,48 @@ def hydrometeors_colors(microphysics_scheme=None):
             Hydrometeors_names=names_hydrometeors_rams
             
     else:
-        raise ValueError(f'Unknown microphysics_scheme {microphysics_scheme}, must be morrison, thompson, sbmfast, sbmfull or rams')
+        raise ValueError('Unknown microphysics_scheme ' +str(microphysics_scheme) + ', must be morrison, thompson, sbmfast, sbmfull or rams')
     return Hydrometeros_colors,Hydrometeors_names
+
+
+def water_content_from_hydrometeor(Hydrometeors,microphysics_scheme=None):
+    from iris.cube import CubeList
+    if microphysics_scheme=='morrison':
+            list_liquid_hydrometeors=['QCLOUD','QRAIN']
+            list_frozen_hydrometeors=['QICE','QSNOW','QGRAUP']
+
+    elif microphysics_scheme=='thompson':
+            list_liquid_hydrometeors=['QCLOUD','QRAIN']
+            list_frozen_hydrometeors=['QICE','QSNOW','QGRAUP']
+
+    elif microphysics_scheme=='sbmfast':
+            list_liquid_hydrometeors=['QCLOUD','QRAIN']
+            list_frozen_hydrometeors=['QICE','QSNOW','QGRAUP']
+
+    elif microphysics_scheme=='sbmfull':
+            list_liquid_hydrometeors=['QCLOUD','QRAIN']
+            list_frozen_hydrometeors=['QICE','QSNOW','QGRAUP']
+
+    elif microphysics_scheme=='rams':
+            list_liquid_hydrometeors=['RCP','RDP','RRP']
+            list_frozen_hydrometeors=['RGP','RHP','RAP','RSP','RPP']
+    else:
+        raise ValueError('Unknown microphysics_scheme ' +str(microphysics_scheme) +', must be morrison, thompson, sbmfast, sbmfull or rams')
+    
+    liquid_water_content=Hydrometeors.extract_strict(list_liquid_hydrometeors[0])
+    if len(list_liquid_hydrometeors)>1:
+        for hydrometeor in list_liquid_hydrometeors[1:]:
+            liquid_water_content=liquid_water_content+Hydrometeors.extract_strict(hydrometeor)
+    liquid_water_content.rename('liquid_water_content')
+    
+    ice_water_content=Hydrometeors.extract_strict(list_frozen_hydrometeors[0])
+    if len(list_liquid_hydrometeors)>1:
+        for hydrometeor in list_frozen_hydrometeors[1:]:
+            ice_water_content=ice_water_content+Hydrometeors.extract_strict(hydrometeor)
+    ice_water_content.rename('ice_water_content')
+    
+    total_water_content=liquid_water_content+ice_water_content
+    total_water_content.rename('total_water_content')
+
+    water_content=CubeList([total_water_content,liquid_water_content,ice_water_content])
+    return water_content
