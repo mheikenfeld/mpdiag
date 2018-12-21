@@ -961,7 +961,7 @@ list_lumped_processes_morrison.append(['PRAI','PRCI','PRACIS','PSACR','PRACI'])
 lumped_colors_morrison['Ice processes']=color_ice
 lumped_names_morrison['Ice processes']='Ice processes'
 
-lumped_colors_morrison['Other']='grey'
+#lumped_colors_morrison['Other']='grey'
 
 
 # Thompson Microphysics:
@@ -1125,7 +1125,7 @@ lumped_colors_sbmfull['Melting']=color_melting
 #list_lumped_processes_sbmfull.append([])
 #lumped_colors_sbmfull['Ice processes']=color_ice
 #
-lumped_colors_sbmfull['Other']='grey'
+#lumped_colors_sbmfull['Other']='grey'
 
 
 
@@ -1194,7 +1194,7 @@ list_lumped_processes_rams.append(['VAPICE'])
 lumped_colors_rams['Sublimation']=color_sublimation
 lumped_names_rams['Sublimation']='Sublimation'
 
-lumped_colors_rams['Other']='grey'
+#lumped_colors_rams['Other']='grey'
 
 
 list_lumped_names_rams_all=[]
@@ -1237,11 +1237,11 @@ list_lumped_processes_rams_all.append(['VAPICET'])
 lumped_colors_rams_all['Sublimation']=color_sublimation
 lumped_names_rams_all['Sublimation']='Sublimation'
 
-lumped_colors_rams['Other']='grey'
+#lumped_colors_rams['Other']='grey'
 
 
 
-def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',others=True):
+def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic'):#,others=False):
     from iris.cube import CubeList
     if lumping=='basic':
         list_names=[]
@@ -1274,22 +1274,22 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic',other
 
     
     cubelist_out=CubeList()
-    list_cubes_other=[cube.name() for cube in cubelist_in]
-    for i,name in enumerate(list_names):
-        cubelist=cubelist_in.extract(list_cubes[i])
-        if cubelist:
-            cube=sum(cubelist)
-            cube.rename(name)        
-            cubelist_out.append(cube)
-        #Remove these list_cubes from "Other"
-        list_cubes_other=list(set(list_cubes_other)-set(list_cubes[i]))
-    #Add allremaining list_cubes and call them "other"
-    if others:
-        cubelist=cubelist_in.extract(list_cubes_other)
-        if cubelist:
-            cube=sum(cubelist)
-            cube.rename('Other')
-            cubelist_out.append(cube)
+    # list_cubes_other=[cube.name() for cube in cubelist_in]
+    # for i,name in enumerate(list_names):
+    #     cubelist=cubelist_in.extract(list_cubes[i])
+    #     if cubelist:
+    #         cube=sum(cubelist)
+    #         cube.rename(name)        
+    #         cubelist_out.append(cube)
+    #     #Remove these list_cubes from "Other"
+    #     list_cubes_other=list(set(list_cubes_other)-set(list_cubes[i]))
+    # #Add allremaining list_cubes and call them "other"
+    # if others:
+    #     cubelist=cubelist_in.extract(list_cubes_other)
+    #     if cubelist:
+    #         cube=sum(cubelist)
+    #         cube.rename('Other')
+    #         cubelist_out.append(cube)
 
     return cubelist_out
 
