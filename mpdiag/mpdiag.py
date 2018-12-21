@@ -409,7 +409,7 @@ def calculate_wrf_mp_path(filename,processes=None,microphysics_scheme=None, sign
                                                 debug_nproc=debug_nproc)
 
 
-    elif microphysics_scheme=='SBM_full':
+    elif microphysics_scheme=='sbmfull':
         if processes=='mass':
             process_list=SBMfull_processes_mass
             if signed==True:
@@ -1299,13 +1299,13 @@ def lump_processes(processes_in,microphysics_scheme=None,lumping='basic',others=
         processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping,others=others)
     elif (microphysics_scheme=='thompson'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
-    elif (microphysics_scheme=='SBM_full'):
+    elif (microphysics_scheme=='sbmfull'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
     elif (microphysics_scheme=='rams'):
         processes_out=lump_cubelist(processes_in,list_lumped_names_rams, list_lumped_processes_rams,lumping=lumping,others=others)               
 
     else:
-        raise ValueError('microphysics must be morrison, thompson, SBM_full or rams')
+        raise ValueError('microphysics must be morrison, thompson, sbmfull or rams')
     return processes_out
 
 
@@ -1413,7 +1413,7 @@ def load_latent_heating_wrf(filename,microphysics_scheme=None,constraint=None,ad
         LHR.rename('latent_heating_rate')
         latent.append(LHR)
 
-    elif (microphysics_scheme in ["SBM_full"] and 'LHRTOT' in variable_list(filename)):
+    elif (microphysics_scheme in ["sbmfull"] and 'LHRTOT' in variable_list(filename)):
         LHR=loadwrfcube(filename,'LHRTOT',constraint=constraint,add_coordinates=add_coordinates)
         LHR.rename('latent_heating_rate')
         latent.append(LHR)
