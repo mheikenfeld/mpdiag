@@ -1274,15 +1274,15 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic'):#,ot
 
     
     cubelist_out=CubeList()
-    # list_cubes_other=[cube.name() for cube in cubelist_in]
-    # for i,name in enumerate(list_names):
-    #     cubelist=cubelist_in.extract(list_cubes[i])
-    #     if cubelist:
-    #         cube=sum(cubelist)
-    #         cube.rename(name)        
-    #         cubelist_out.append(cube)
-    #     #Remove these list_cubes from "Other"
-    #     list_cubes_other=list(set(list_cubes_other)-set(list_cubes[i]))
+    list_cubes_other=[cube.name() for cube in cubelist_in]
+    for i,name in enumerate(list_names):
+        cubelist=cubelist_in.extract(list_cubes[i])
+        if cubelist:
+            cube=sum(cubelist)
+            cube.rename(name)        
+            cubelist_out.append(cube)
+        #Remove these list_cubes from "Other"
+        list_cubes_other=list(set(list_cubes_other)-set(list_cubes[i]))
     # #Add allremaining list_cubes and call them "other"
     # if others:
     #     cubelist=cubelist_in.extract(list_cubes_other)
@@ -1294,16 +1294,15 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic'):#,ot
     return cubelist_out
 
 
-def lump_processes(processes_in,microphysics_scheme=None,lumping='basic',others=True):
+def lump_processes(processes_in,microphysics_scheme=None,lumping='basic'):#,others=True):
     if (microphysics_scheme=='morrison'):
-        processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping,others=others)
+        processes_out=lump_cubelist(processes_in,list_lumped_names_morrison, list_lumped_processes_morrison,lumping=lumping)#,others=others)
     elif (microphysics_scheme=='thompson'):
-        processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping,others=others)       
+        processes_out=lump_cubelist(processes_in,list_lumped_names_thompson, list_lumped_processes_thompson,lumping=lumping)#,others=others)
     elif (microphysics_scheme=='sbmfull'):
-        processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping,others=others)               
+        processes_out=lump_cubelist(processes_in,list_lumped_names_sbmfull, list_lumped_processes_sbmfull,lumping=lumping)#,others=others)
     elif (microphysics_scheme=='rams'):
-        processes_out=lump_cubelist(processes_in,list_lumped_names_rams, list_lumped_processes_rams,lumping=lumping,others=others)               
-
+        processes_out=lump_cubelist(processes_in,list_lumped_names_rams, list_lumped_processes_rams,lumping=lumping)#,others=others)
     else:
         raise ValueError('microphysics must be morrison, thompson, sbmfull or rams')
     return processes_out
@@ -1318,7 +1317,7 @@ def lumped_latentheating(processes_in,microphysics_scheme=None):
     SLH_fusion_vaporisation = AuxCoord(334e3+2.26476e6,long_name='specific latent heat of fusion and vaporisation', units='joules per kilogram')
 
 
-    lumped_processes=lump_processes(processes_in,microphysics_scheme=microphysics_scheme,lumping='latent',others=False)
+    lumped_processes=lump_processes(processes_in,microphysics_scheme=microphysics_scheme,lumping='latent')#,others=False)
     for cube in lumped_processes:
         name=cube.name()
         if name=='Condensation':
