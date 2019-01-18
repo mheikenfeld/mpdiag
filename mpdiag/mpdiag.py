@@ -1001,7 +1001,7 @@ lumped_colors_thompson['Rain Freezing']=color_rainfreezing
 lumped_names_thompson['Rain Freezing']='Rain Freezing'
 
 list_lumped_names_thompson.append('Riming')
-list_lumped_processes_thompson.append(['PRG_GCW','PRG_SCW','PRS_SCW','E_PRR_RCG','E_PRR_RCS','PRR_RCI'])
+list_lumped_processes_thompson.append(['PRG_GCW','PRG_SCW','PRS_SCW','PRG_RCG','PRS_RCS','PRG_RCS','PRR_RCI'])
 lumped_colors_thompson['Riming']=color_riming
 lumped_names_thompson['Riming']='Riming'
 
@@ -1011,7 +1011,7 @@ lumped_colors_thompson['Droplet Riming']=color_dropletriming
 lumped_names_thompson['Droplet Riming']='Droplet Riming'
 
 list_lumped_names_thompson.append('Rain Riming')
-list_lumped_processes_thompson.append(['E_PRR_RCG','E_PRR_RCS','PRR_RCI'])
+list_lumped_processes_thompson.append(['PRG_RCG','PRS_RCS','PRG_RCS','PRR_RCI'])
 lumped_colors_thompson['Rain Riming']=color_rainriming
 lumped_names_thompson['Rain Riming']='Rain Riming'
 
