@@ -1247,7 +1247,7 @@ def lump_cubelist(cubelist_in,list_names_in, list_cubes_in,lumping='basic'):#,ot
         list_names=[]
         list_cubes=[]
         for i,name in enumerate(list_names_in):
-            if name in ['Condensation','Evaporation','Freezing','Melting','Deposition','Sublimation','Rain formation']:
+            if name in ['Condensation','Evaporation','Freezing','Melting','Deposition','Sublimation','Rain formation','Ice Processes']:
                 list_names.append(list_names_in[i])
                 list_cubes.append(list_cubes_in[i])
 
