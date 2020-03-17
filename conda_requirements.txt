@@ -1,6 +1,6 @@
 iris
+xarray
 wrfcube
 ramscube
 numpy
-scipy
 
