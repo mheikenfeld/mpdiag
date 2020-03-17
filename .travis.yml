@@ -1,14 +1,11 @@
 language: python
-#sudo: false
-# choose python versions
+#choose os
 os: 
   - linux
 #  - osx
 #  - windows
-
-
+# choose python versions
 python:
-  - "2.7"
   - "3.6"
   - "3.7"
 
@@ -16,10 +13,11 @@ install:
 
   # Install miniconda
   # -----------------
-  - export CONDA_BASE=http://repo.continuum.io/miniconda/Miniconda3;
- 
+  - PYTHON_TARGET=$TRAVIS_PYTHON_VERSION
+  - if [[ $PYTHON_TARGET == 3* ]]; then
+      export CONDA_BASE=http://repo.continuum.io/miniconda/Miniconda3;
+    fi
   - wget ${CONDA_BASE}-latest-Linux-x86_64.sh -O miniconda.sh;
-
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
 
