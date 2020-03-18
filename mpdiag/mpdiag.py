@@ -1622,8 +1622,10 @@ def hydrometeors_colors(microphysics_scheme=None):
         raise ValueError('Unknown microphysics_scheme ' +str(microphysics_scheme) + ', must be morrison, thompson, sbmfast, sbmfull or rams')
     return Hydrometeros_colors,Hydrometeors_names
 
-
-def water_content_from_hydrometeor(Hydrometeors,microphysics_scheme=None):
+def water_content_from_hydrometeor(df_hydrometeors,type='total',microphysics_scheme=None):
+    '''
+    Function to calculate the total frozen and liquid water content
+    '''
     from iris.cube import CubeList
     if microphysics_scheme=='morrison':
             list_liquid_hydrometeors=['QCLOUD','QRAIN']
@@ -1647,20 +1649,21 @@ def water_content_from_hydrometeor(Hydrometeors,microphysics_scheme=None):
     else:
         raise ValueError('Unknown microphysics_scheme ' +str(microphysics_scheme) +', must be morrison, thompson, sbmfast, sbmfull or rams')
     
-    liquid_water_content=Hydrometeors.extract_strict(list_liquid_hydrometeors[0])
-    if len(list_liquid_hydrometeors)>1:
-        for hydrometeor in list_liquid_hydrometeors[1:]:
-            liquid_water_content=liquid_water_content+Hydrometeors.extract_strict(hydrometeor)
-    liquid_water_content.rename('liquid_water_content')
-    
-    ice_water_content=Hydrometeors.extract_strict(list_frozen_hydrometeors[0])
-    if len(list_liquid_hydrometeors)>1:
-        for hydrometeor in list_frozen_hydrometeors[1:]:
-            ice_water_content=ice_water_content+Hydrometeors.extract_strict(hydrometeor)
-    ice_water_content.rename('ice_water_content')
-    
-    total_water_content=liquid_water_content+ice_water_content
-    total_water_content.rename('total_water_content')
+    list_total_hydrometeors=list_liquid_hydrometeors+list_frozen_hydrometeors
 
-    water_content=CubeList([total_water_content,liquid_water_content,ice_water_content])
-    return water_content
+    if type=='total':
+        mass=df_hydrometeors[list_total_hydrometeors[0]]
+        if len(list_total_hydrometeors)>1:
+            for hydrometeor in list_total_hydrometeors[1:]:
+                mass=mass+df_hydrometeors[hydrometeor]
+    if type=='liquid':
+        mass=df_hydrometeors[list_liquid_hydrometeors[0]]
+        if len(list_liquid_hydrometeors)>1:
+            for hydrometeor in list_liquid_hydrometeors[1:]:
+                mass=mass+df_hydrometeors[hydrometeor]
+    if type=='frozen':
+        mass=df_hydrometeors[list_frozen_hydrometeors[0]]
+        if len(list_frozen_hydrometeors)>1:
+            for hydrometeor in list_frozen_hydrometeors[1:]:
+                mass=mass+df_hydrometeors[hydrometeor]
+    return mass
